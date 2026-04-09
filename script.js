@@ -116,7 +116,7 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
     const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
     const detalle = carrito.map(p => `✅ ${p.nombreUnidad}: ${p.cantidadElegida} ($${p.subtotal.toLocaleString('es-CL')})`).join("%0A");
     const miNumero = "56963536651"; 
-    const mensaje = `¡Hola Javier! 🛒 Quiero hacer este pedido:%0A%0A${detalle}%0A%0A💰 *Total a pagar: $${suma.toLocaleString('es-CL')}*`;
+    const mensaje = `¡Hola Sra.Kathy! 🛒 Quiero hacer este pedido:%0A%0A${detalle}%0A%0A💰 *Total a pagar: $${suma.toLocaleString('es-CL')}*`;
     window.open(`https://wa.me/${miNumero}?text=${mensaje}`, '_blank');
 });
 
