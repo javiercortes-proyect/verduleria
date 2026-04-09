@@ -262,3 +262,46 @@ footer {
     text-align: center;
     border-top: 1px solid #eee;
 }
+/* Estilo mejorado para el selector de cantidad en las tarjetas */
+.selector-cantidad {
+    width: 80px;
+    padding: 10px;
+    border: 2px solid var(--verde-primario);
+    border-radius: 25px; /* Bordes redondos */
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--verde-oscuro);
+    outline: none;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.selector-cantidad:focus {
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.4);
+}
+
+/* Diseño de los botones dentro del carrito para eliminar 1 a 1 */
+.controles-item-carrito {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.btn-menos {
+    background: #f0f0f0;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-menos:hover {
+    background: #e0e0e0;
+}
