@@ -1,107 +1,78 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Verdurería</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Verdulería | De la Feria a tu Hogar</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <div class="logo">
-      <span class="logo-icono">🥦</span>
-      <div>
-        <h1>La Verdurería</h1>
-        <p class="subtitulo">Productos frescos todos los días</p>
-      </div>
-    </div>
-    <nav>
-      <a href="#">Inicio</a>
-      <a href="#">Productos</a>
-      <a href="#">Contacto</a>
-      <button class="btn-carrito">
-        🛒 Carrito
-        <span class="contador-carrito" id="contador">0</span>
-      </button>
-    </nav>
-  </header>
+    <header>
+        <nav>
+            <div class="logo">🥦 La Verdulería</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="carrito-icono" id="abrir-carrito">
+                🛒 <span id="contador-carrito">0</span>
+            </div>
+        </nav>
+    </header>
 
-  <main>
-    <h2>Nuestras verduras frescas</h2>
-    <div class="grilla-productos">
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Verduras Frescas en Quilpué</h1>
+            <p>Calidad garantizada y precios de feria directo en tu mesa.</p>
+            <a href="#productos" class="btn-principal">Hacer Pedido</a>
+        </div>
+    </section>
 
-      <div class="tarjeta">
-        <img src="imagenes/tomate.jpg" alt="Tomates">
-        <h3>Tomates</h3>
-        <p>Frescos del huerto</p>
-        <span class="precio">$1.200 / kg</span>
-        <button class="btn-agregar">🛒 Agregar al carrito</button>
-      </div>
+    <section id="productos">
+        <div class="titulo-seccion">
+            <h2>Nuestros Productos</h2>
+            <p>Selecciona lo que necesites y suma al carrito</p>
+        </div>
+        <div id="contenedor-productos" class="grid-productos">
+            </div>
+    </section>
 
-      <div class="tarjeta">
-        <img src="imagenes/cebolla.jpg" alt="Cebollas">
-        <h3>Cebollas</h3>
-        <p>Ideales para guisos</p>
-        <span class="precio">$1.000 / kg</span>
-        <button class="btn-agregar">🛒 Agregar al carrito</button>
-      </div>
+    <section id="contacto">
+        <div class="contacto-container">
+            <h2>Contacto Directo</h2>
+            <div class="contacto-card">
+                <p><strong>👨‍🌾 Vendedor:</strong> Javier Cortés</p>
+                <p><strong>📍 Zona de entrega:</strong> Quilpué y alrededores</p>
+                <p><strong>⏰ Horario:</strong> Lunes a Sábado, 09:00 - 19:00</p>
+                <p><strong>💬 Consultas:</strong> +56 9 1234 5678</p>
+            </div>
+        </div>
+    </section>
 
-      <div class="tarjeta">
-        <img src="imagenes/brocoli.jpg" alt="Brócoli">
-        <h3>Brócoli</h3>
-        <p>Rico en vitaminas</p>
-        <span class="precio">$1.400 / unidad</span>
-        <button class="btn-agregar">🛒 Agregar al carrito</button>
-      </div>
+    <aside id="carrito-lateral" class="oculto">
+        <div class="carrito-header">
+            <h3>Tu Pedido</h3>
+            <button id="btn-cerrar-carrito" class="btn-cerrar">✕</button>
+        </div>
+        
+        <div id="lista-carrito" class="carrito-body">
+            </div>
 
-      <div class="tarjeta">
-        <img src="imagenes/zanahoria.jpg" alt="Zanahorias">
-        <h3>Zanahorias</h3>
-        <p>Dulces y nutritivas</p>
-        <span class="precio">$700 / kg</span>
-        <button class="btn-agregar">🛒 Agregar al carrito</button>
-      </div>
+        <div class="carrito-footer">
+            <div class="total-pago">
+                <strong>Total:</strong> <span id="carrito-total-precio">$0</span>
+            </div>
+            <button id="btn-pagar" class="btn-comprar">Pagar por WhatsApp</button>
+            <button id="btn-vaciar" class="btn-vaciar">Vaciar Carrito</button>
+        </div>
+    </aside>
 
-      <div class="tarjeta">
-        <img src="imagenes/papa.jpg" alt="Papas">
-        <h3>Papas</h3>
-        <p>Para todo tipo de platos</p>
-        <span class="precio">$5x2500 / kg</span>
-        <button class="btn-agregar">🛒 Agregar al carrito</button>
-      </div>
+    <footer>
+        <p>&copy; 2026 La Verdulería - Estudiante Ingeniería Informática</p>
+    </footer>
 
-      <div class="tarjeta">
-        <img src="imagenes/berenjena.jpg" alt="Berenjenas">
-        <h3>Berenjenas</h3>
-        <p>Perfectas a la plancha</p>
-        <span class="precio">$600 / kg</span>
-        <button class="btn-agregar">🛒 Agregar al carrito</button>
-      </div>
-
-    </div>
-  </main>
-
-  <footer>
-    <p>© 2026 La Verdurería — Viña del Mar</p>
-  </footer>
-
-  <!-- PANEL DEL CARRITO -->
-  <div class="carrito-panel" id="carrito-panel">
-    <div class="carrito-header">
-      <h2>🛒 Tu carrito</h2>
-      <button class="carrito-cerrar" id="carrito-cerrar">✕</button>
-    </div>
-    <div class="carrito-lista" id="carrito-lista">
-      <p class="carrito-vacio">Tu carrito está vacío</p>
-    </div>
-    <div class="carrito-footer">
-      <p class="carrito-total">Total de productos: <span id="carrito-total">0</span></p>
-      <button class="btn-vaciar" id="btn-vaciar">🗑 Vaciar carrito</button>
-    </div>
-  </div>
-  <div class="carrito-overlay" id="carrito-overlay"></div>
-
-  <script src="script.js?v=2"></script>
+    <script src="script.js"></script>
 </body>
 </html>
