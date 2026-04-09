@@ -342,3 +342,22 @@ footer {
     margin-bottom: 10px;
     color: white;
 }
+/* --- COPIA Y PEGA ESTO AL FINAL DE TU CSS --- */
+
+/* Asegura que el carrito esté por encima de todo */
+#carrito-lateral {
+    z-index: 9999 !important; /* Prioridad máxima sobre botones y header */
+}
+
+/* Ajustes específicos para celulares */
+@media (max-width: 600px) {
+    #carrito-lateral {
+        width: 100% !important; /* Ocupa toda la pantalla para que no se vea cortado */
+    }
+
+    /* Opcional: ajustar el grid para que las tarjetas no se amontonen */
+    .grid-productos {
+        grid-template-columns: 1fr !important; 
+        padding: 10px;
+    }
+}
