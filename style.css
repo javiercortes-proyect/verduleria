@@ -225,3 +225,24 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 }
 
 /* El resto del CSS se mantiene igual al anterior */
+
+/* Elimina cualquier espacio entre el Hero y Productos */
+.hero {
+    margin-bottom: 0;
+}
+
+#productos {
+    padding: 60px 5%;
+    background-color: var(--verde-fondo) !important;
+    min-height: 100vh;
+    margin-top: 0; /* Asegura que se pegue arriba */
+    margin-bottom: 0; /* Asegura que se pegue al contacto */
+}
+
+#contacto {
+    background-color: white !important;
+    color: #1e272e;
+    padding: 60px 5%;
+    text-align: center;
+    margin-top: 0; /* Se pega al bloque verde */
+}
