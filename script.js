@@ -66,9 +66,13 @@ function actualizarVista() {
         </div>
     `).join('');
 
-    const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
-    totalMsg.innerText = `$${suma.toLocaleString('es-CL')}`;
-    contador.innerText = carrito.length;
+    const sumaTotal = carrito.reduce((t, p) => t + p.subtotal, 0);
+    totalMsg.innerText = `$${sumaTotal.toLocaleString('es-CL')}`;
+
+    // NUEVA LÓGICA DEL CONTADOR: Suma todas las cantidades individuales
+    // El número que aparece arriba del carro reflejará el total real de artículos.
+    const cantidadTotalArticulos = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+    contador.innerText = cantidadTotalArticulos; 
 }
 
 window.agregar = function(id) {
@@ -108,7 +112,6 @@ window.agregar = function(id) {
     actualizarVista();
 };
 
-// Esta función ahora la usan tanto el botón "-" como el basurero
 window.borrarUno = function(index) {
     const item = carrito[index];
     const paso = item.unidad === 'kg' ? 0.5 : 1;
@@ -117,7 +120,6 @@ window.borrarUno = function(index) {
         item.cantidad -= paso;
         item.subtotal = item.cantidad * item.precio;
     } else {
-        // Si ya solo queda 1 (o 0.5kg), se elimina la fila completa
         carrito.splice(index, 1);
     }
     actualizarVista();
