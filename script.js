@@ -23,6 +23,15 @@ function dibujarProductos() {
     contenedor.innerHTML = productos.map(p => {
         let controles = "";
         
+        // Buscamos si ya hay algo de este producto en el carrito para mostrarlo
+        const cantidadEnCarrito = carrito
+            .filter(item => item.id === p.id)
+            .reduce((total, item) => total + item.cantidadElegida, 0);
+
+        const badge = cantidadEnCarrito > 0 
+            ? `<div class="contador-item">Llevas: ${cantidadEnCarrito}</div>` 
+            : `<div class="contador-item oculto"></div>`;
+
         if (p.unidad === 'kg') {
             controles = `
                 <div class="contenedor-controles">
@@ -46,6 +55,7 @@ function dibujarProductos() {
                 <div class="info-producto">
                     <h3>${p.nombre}</h3>
                     <p class="precio">$${p.precio.toLocaleString('es-CL')} ${p.unidad === 'un' ? '<small>/ unidad</small>' : ''}</p>
+                    ${badge}
                     ${controles}
                     <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito</button>
                 </div>
@@ -87,6 +97,7 @@ window.agregar = function(id) {
         });
     }
     actualizarVista();
+    dibujarProductos(); // Redibujamos para que aparezca el "Llevas: X" en la tarjeta
 }
 
 function actualizarVista() {
@@ -122,6 +133,7 @@ function actualizarVista() {
 window.borrar = function(index) {
     carrito.splice(index, 1);
     actualizarVista();
+    dibujarProductos(); // Actualiza las tarjetas al borrar
 }
 
 document.getElementById('btn-pagar').addEventListener('click', () => {
@@ -144,6 +156,6 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
 
 document.getElementById('abrir-carrito').onclick = () => document.getElementById('carrito-lateral').classList.remove('oculto');
 document.getElementById('btn-cerrar-carrito').onclick = () => document.getElementById('carrito-lateral').classList.add('oculto');
-document.getElementById('btn-vaciar').onclick = () => { if(confirm("¿Seguro quieres vaciar el carrito?")) { carrito = []; actualizarVista(); } };
+document.getElementById('btn-vaciar').onclick = () => { if(confirm("¿Seguro quieres vaciar el carrito?")) { carrito = []; actualizarVista(); dibujarProductos(); } };
 
 dibujarProductos();
