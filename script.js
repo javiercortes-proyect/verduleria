@@ -85,42 +85,47 @@ function actualizarVista() {
     if (totalMsg) totalMsg.innerText = `$${suma.toLocaleString('es-CL')}`;
     if (contador) contador.innerText = carrito.length;
 
-    // --- ELIMINAR SECCIÓN "NUESTRAS VERDURAS" Y LIMPIAR FONDO ---
+    // --- AJUSTES DE LIMPIEZA SIN BORRAR LOS PRODUCTOS ---
     
-    // 1. Borrar título y subtítulo que marcaste
-    const titulosABorrar = document.querySelectorAll('h2');
-    titulosABorrar.forEach(h2 => {
-        if(h2.innerText.includes("Nuestras Verduras")) h2.remove();
-    });
+    // 1. Título principal arriba
+    const h1 = document.querySelector('h1');
+    if (h1) h1.innerText = "Frutas y Verduras Frescas";
 
-    const parrafosABorrar = document.querySelectorAll('p');
-    parrafosABorrar.forEach(p => {
-        if(p.innerText.includes("Selecciona lo que necesites")) p.remove();
-    });
+    // 2. Título de la sección de productos (ahora Katherine Campos)
+    // Buscamos el H2 que está DENTRO de la sección de productos
+    const sectionProductos = document.getElementById('productos') || document.querySelector('.productos');
+    if (sectionProductos) {
+        const h2 = sectionProductos.querySelector('h2');
+        if (h2) {
+            h2.innerText = "Katherine Campos";
+            h2.style.textAlign = "center";
+            h2.style.color = "white";
+        }
+        // Borrar solo el texto "Selecciona lo que necesites..."
+        const p = sectionProductos.querySelector('p');
+        if (p && p.innerText.includes("Selecciona")) p.remove();
+    }
 
-    // 2. Eliminar toda la sección verde sobrante al final
-    const secciones = document.querySelectorAll('section');
-    secciones.forEach(sec => {
-        // Si la sección está después del contacto o contiene el catálogo duplicado, se elimina
-        if(sec.id === 'productos' || sec.classList.contains('productos')) {
-            sec.remove();
+    // 3. Borrar CUALQUIER OTRA sección que diga "Nuestras Verduras" al final
+    document.querySelectorAll('h2').forEach(titulo => {
+        if (titulo.innerText.includes("Nuestras Verduras") && titulo.parentElement.id !== 'productos') {
+            titulo.parentElement.remove(); 
         }
     });
 
-    // 3. Asegurar que el Contacto esté centrado y sin fondo verde debajo
+    // 4. Centrar Contacto Directo
     const contacto = document.getElementById('contacto') || document.querySelector('section#contacto');
     if (contacto) {
-        contacto.style.cssText = "text-align: center; display: flex; flex-direction: column; align-items: center; background-color: white; color: black; padding: 40px 0; width: 100%; margin: 0;";
+        contacto.style.cssText = "text-align: center; display: flex; flex-direction: column; align-items: center; background-color: white; color: black; padding: 40px 0;";
     }
 
-    // 4. Pie de página en blanco
+    // 5. Pie de página
     const footer = document.querySelector('footer');
     if (footer) {
         footer.style.backgroundColor = "white";
         footer.style.color = "black";
-        footer.style.borderTop = "1px solid #eee";
-        const p = footer.querySelector('p');
-        if (p) p.innerText = "© 2026 La Verdurería";
+        const pFooter = footer.querySelector('p');
+        if (pFooter) pFooter.innerText = "© 2026 La Verdurería";
     }
 }
 
