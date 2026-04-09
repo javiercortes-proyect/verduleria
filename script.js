@@ -2,11 +2,11 @@ const productos = [
     { id: 1, nombre: "Repollo", precio: 3000, img: "imagenes/repollo.jpg", unidad: 'un' },
     { id: 2, nombre: "Coliflor", precio: 2000, img: "imagenes/coliflor.jpg", unidad: 'un' },
     { id: 3, nombre: "Brócoli", precio: 1800, img: "imagenes/brocoli.jpg", unidad: 'un' },
-    { id: 4, nombre: "Beterraga", precio: 1500, img: "imagenes/beterraga.jpg", unidad: 'kg' },
-    { id: 5, nombre: "Ajíes", precio: 100, img: "imagenes/ajises.jpg", unidad: 'un' },
-    { id: 6, nombre: "Zapallo", precio: 1000, img: "imagenes/zapallo.jpg", unidad: 'kg' },
-    { id: 7, nombre: "Z. Italiano (3x1000)", precio: 333, img: "imagenes/zapallo-italiano.jpg", unidad: 'un' },
-    { id: 8, nombre: "Pepinos", precio: 500, img: "imagenes/pepino.jpg", unidad: 'un' },
+    { id: 4, nombre: "Beterraga", precio: 1500, img: "imagenes/beterraga.jpg", unidad: 'un' },
+    { id: 5, nombre: "Ajíes", precio: 200, img: "imagenes/ajises.jpg", unidad: 'un' },
+    { id: 6, nombre: "Zapallo", precio: 1200, img: "imagenes/zapallo.jpg", unidad: 'kg' },
+    { id: 7, nombre: "Z. Italiano", precio: 500, precioPromo: 1000, img: "imagenes/zapallo-italiano.jpg", unidad: 'promo-3x' },
+    { id: 8, nombre: "Pepinos", precio: 600, precioPromo: 1000, img: "imagenes/pepino.jpg", unidad: 'promo-2x' },
     { id: 9, nombre: "Ajo", precio: 300, precioSaco: 500, precioPromo: 1000, img: "imagenes/ajo.jpg", unidad: 'ajo-especial' },
     { id: 10, nombre: "Cebolla", precio: 800, img: "imagenes/cebolla.jpg", unidad: 'kg' },
     { id: 11, nombre: "Zanahoria", precio: 800, img: "imagenes/zanahoria.jpg", unidad: 'kg' },
@@ -20,14 +20,14 @@ const productos = [
     { id: 19, nombre: "Acelga", precio: 500, img: "imagenes/acelga.jpg", unidad: 'un' },
     { id: 20, nombre: "Espinacas", precio: 1000, img: "imagenes/espinaca.jpg", unidad: 'un' },
     { id: 21, nombre: "Cilantro", precio: 800, img: "imagenes/cilantro.jpg", unidad: 'un' },
-    { id: 22, nombre: "Choclo Americano (3x1000)", precio: 333, img: "imagenes/choclo.jpg", unidad: 'un' },
+    { id: 22, nombre: "Choclo Americano", precio: 500, precioPromo: 1000, img: "imagenes/choclo.jpg", unidad: 'promo-3x' },
     { id: 23, nombre: "Bruselas (Malla)", precio: 1000, img: "imagenes/bruselas.jpg", unidad: 'un' },
     { id: 24, nombre: "Palta", precio: 3000, img: "imagenes/palta.jpg", unidad: 'kg' },
-    { id: 25, nombre: "Limón", precio: 1500, img: "imagenes/limon.jpg", unidad: 'kg' },
+    { id: 25, nombre: "Limón", precio: 1700, img: "imagenes/limon.jpg", unidad: 'kg' },
     { id: 26, nombre: "Perejil", precio: 600, img: "imagenes/perejil.jpg", unidad: 'un' },
     { id: 27, nombre: "Pimentón Rojo", precio: 800, img: "imagenes/pimenton-rojo.jpg", unidad: 'un' },
     { id: 28, nombre: "Pimentón Verde", precio: 700, img: "imagenes/pimenton-verde.jpg", unidad: 'un' },
-    { id: 29, nombre: "Rabanos", precio: 500, img: "imagenes/Rabanos.jpg", unidad: 'un' }
+    { id: 29, nombre: "Rabanos", precio: 500, img: "imagenes/rabanos.jpg", unidad: 'un' }
 ];
 
 let carrito = [];
@@ -59,6 +59,22 @@ function dibujarProductos() {
                     <label for="p2-${p.id}" class="label-unidad">2x$500</label>
                     <input type="radio" name="tipo-${p.id}" id="p5-${p.id}" value="p5" class="radio-unidad">
                     <label for="p5-${p.id}" class="label-unidad">5x$1000</label>
+                </div>`;
+        } else if (p.unidad === 'promo-3x') {
+            selectorEspecial = `
+                <div class="selector-unidad">
+                    <input type="radio" name="tipo-${p.id}" id="u-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u-${p.id}" class="label-unidad">1 x $${p.precio}</label>
+                    <input type="radio" name="tipo-${p.id}" id="p3-${p.id}" value="p3" class="radio-unidad">
+                    <label for="p3-${p.id}" class="label-unidad">3 x $1000</label>
+                </div>`;
+        } else if (p.unidad === 'promo-2x') {
+            selectorEspecial = `
+                <div class="selector-unidad">
+                    <input type="radio" name="tipo-${p.id}" id="u-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u-${p.id}" class="label-unidad">1 x $${p.precio}</label>
+                    <input type="radio" name="tipo-${p.id}" id="p2-${p.id}" value="p2" class="radio-unidad">
+                    <label for="p2-${p.id}" class="label-unidad">2 x $1000</label>
                 </div>`;
         }
 
@@ -145,6 +161,26 @@ window.agregar = function(id) {
         } else {
             nombreFinal = "Ajo (Unidad)";
             precioFinal = p.precio; 
+            unidadFinal = "un";
+        }
+    } else if (p.unidad === 'promo-3x') {
+        if (document.getElementById(`p3-${id}`).checked) {
+            nombreFinal = p.nombre + " (Promo 3x1000)";
+            precioFinal = 1000;
+            unidadFinal = "promo";
+        } else {
+            nombreFinal = p.nombre + " (Unidad)";
+            precioFinal = p.precio;
+            unidadFinal = "un";
+        }
+    } else if (p.unidad === 'promo-2x') {
+        if (document.getElementById(`p2-${id}`).checked) {
+            nombreFinal = p.nombre + " (Promo 2x1000)";
+            precioFinal = 1000;
+            unidadFinal = "promo";
+        } else {
+            nombreFinal = p.nombre + " (Unidad)";
+            precioFinal = p.precio;
             unidadFinal = "un";
         }
     }
