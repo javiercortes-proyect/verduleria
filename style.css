@@ -26,23 +26,6 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 .nav-links { display: flex; list-style: none; gap: 20px; }
 .nav-links a { color: white; text-decoration: none; font-weight: bold; }
 
-.carrito-icono {
-    cursor: pointer;
-    font-size: 1.2rem;
-    position: relative;
-}
-
-#contador-carrito {
-    background: #ff4d4d;
-    color: white;
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-size: 0.8rem;
-    position: absolute;
-    top: -10px;
-    right: -10px;
-}
-
 .hero {
     min-height: 60vh;
     background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
@@ -55,12 +38,27 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     color: white;
     text-align: center;
     padding: 20px;
+    margin-bottom: 0;
 }
 
+/* SECCIÓN VERDE CONTINUA */
 #productos {
     padding: 60px 5%;
     background-color: var(--verde-fondo) !important;
     min-height: 100vh;
+    margin: 0;
+}
+
+.titulo-seccion {
+    text-align: center;
+    margin-bottom: 40px;
+    color: white !important;
+}
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
 }
 
 .producto-card {
@@ -74,6 +72,7 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 }
 
 .producto-img { width: 100%; height: 180px; object-fit: contain; }
+
 .precio { color: var(--verde-primario); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
 
 .btn-agregar {
@@ -87,68 +86,59 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     font-weight: bold;
 }
 
-.wrapper-cantidad {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f1f1f1;
-    border-radius: 30px;
-    padding: 2px 10px;
-    margin-bottom: 15px;
-    border: 2px solid var(--verde-primario);
-    width: 110px;
-}
-
-.btn-qty {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    font-weight: bold;
-    color: var(--verde-primario);
-    cursor: pointer;
-    width: 25px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.input-cantidad-bonito {
-    width: 40px;
-    border: none;
-    background: none;
-    text-align: center;
-    font-size: 1.1rem;
-    font-weight: bold;
-    outline: none;
+/* SECCIÓN BLANCA AL FINAL */
+#contacto {
+    background-color: white !important;
     color: var(--oscuro);
+    padding: 60px 5%;
+    text-align: center;
+    margin: 0;
 }
 
-/* Ocultar flechas del navegador */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.contacto-card {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 15px;
+    display: inline-block;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
 
+/* ========================================= */
+/* DISEÑO DEL CARRITO BONITO RESTAURADO      */
+/* ========================================= */
 #carrito-lateral {
     position: fixed;
     right: 0; top: 0;
-    width: 380px;
+    width: 380px; /* Un poco más ancho para que se vea mejor */
     height: 100%;
     background: white;
     z-index: 2000;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.25);
+    box-shadow: -5px 0 25px rgba(0,0,0,0.25); /* Sombra más pronunciada */
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out; /* Animación de deslizamiento */
 }
 
-#carrito-lateral.oculto { transform: translateX(100%); }
+/* Estilo para cuando está oculto (se desliza hacia la derecha) */
+#carrito-lateral.oculto {
+    display: flex !important; /* Asegura que siga existiendo para animarse */
+    transform: translateX(100%);
+}
 
 .carrito-header {
     padding: 25px;
+    background: #fdfdfd;
     border-bottom: 2px solid #eee;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.carrito-header h3 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--verde-oscuro);
 }
 
 .btn-cerrar {
@@ -156,19 +146,70 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     color: white;
     border: none;
     width: 35px; height: 35px;
-    border-radius: 50%;
+    border-radius: 50%; /* Botón X redondo */
     cursor: pointer;
+    font-weight: bold;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+.carrito-body {
+    flex-grow: 1;
+    overflow-y: auto; /* Barra de desplazamiento bonita */
+    padding: 15px;
+}
+
+/* DISEÑO DE CADA ITEM DENTRO DEL CARRITO */
 .item-carrito {
     background: #fcfcfc;
     border: 1px solid #f0f0f0;
-    border-radius: 12px;
+    border-radius: 12px; /* Bordes redondeados en los items */
     padding: 15px;
     margin-bottom: 12px;
     display: flex;
     flex-direction: column;
-    position: relative;
+    gap: 5px;
+    position: relative; /* Para el botón de borrar */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.item-carrito strong {
+    font-size: 1.1rem;
+    color: var(--oscuro);
+}
+
+.item-carrito small {
+    color: #666;
+}
+
+.item-carrito span {
+    color: var(--verde-primario);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.btn-eliminar-item {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: #ff4d4d; /* Ícono🗑️ rojo */
+    opacity: 0.7;
+}
+
+.btn-eliminar-item:hover {
+    opacity: 1;
+}
+
+.carrito-footer {
+    padding: 25px;
+    background: #fdfdfd;
+    border-top: 2px solid #eee;
+    margin-top: auto;
 }
 
 .total-pago {
@@ -176,50 +217,43 @@ input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     justify-content: space-between;
     font-size: 1.4rem;
     font-weight: 800;
-    padding: 20px;
+    color: var(--verde-oscuro);
+    margin-bottom: 20px;
 }
 
+/* BOTONES DE COLORES DEL FINAL */
 .btn-comprar {
-    background-color: #25d366 !important;
-    color: white;
+    background-color: #25d366 !important; /* Color verde WhatsApp */
+    color: white !important;
     border: none;
     padding: 15px;
     border-radius: 12px;
     font-weight: bold;
+    font-size: 1.1rem;
     width: 100%;
+    margin-bottom: 12px;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.btn-comprar:hover {
+    background-color: #1ebe57 !important;
 }
 
 .btn-vaciar {
-    background-color: #ff4d4d !important;
-    color: white;
+    background-color: #ff4d4d !important; /* Color rojo */
+    color: white !important;
     border: none;
     padding: 12px;
     border-radius: 12px;
+    font-weight: bold;
     width: 100%;
-    margin-top: 10px;
     cursor: pointer;
+    opacity: 0.9;
 }
 
-.selector-unidad {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 10px;
-}
-
-.radio-unidad { display: none; }
-.label-unidad {
-    padding: 5px 12px;
-    border: 2px solid var(--verde-primario);
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    color: var(--verde-primario);
-}
-
-.radio-unidad:checked + .label-unidad {
-    background-color: var(--verde-primario);
-    color: white;
+.btn-vaciar:hover {
+    opacity: 1;
 }
 
 footer {
@@ -227,4 +261,84 @@ footer {
     padding: 20px;
     text-align: center;
     border-top: 1px solid #eee;
+}
+/* Estilo mejorado para el selector de cantidad en las tarjetas */
+.selector-cantidad {
+    width: 80px;
+    padding: 10px;
+    border: 2px solid var(--verde-primario);
+    border-radius: 25px; /* Bordes redondos */
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--verde-oscuro);
+    outline: none;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.selector-cantidad:focus {
+    box-shadow: 0 0 8px rgba(39, 174, 96, 0.4);
+}
+
+/* Diseño de los botones dentro del carrito para eliminar 1 a 1 */
+.controles-item-carrito {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.btn-menos {
+    background: #f0f0f0;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-menos:hover {
+    background: #e0e0e0;
+}
+/* Estilos para el selector de unidad (Kilo/Saco) */
+.selector-unidad {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.radio-unidad {
+    display: none;
+}
+
+.label-unidad {
+    padding: 5px 12px;
+    border: 2px solid var(--verde-primario);
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--verde-primario);
+    transition: all 0.3s;
+}
+
+.radio-unidad:checked + .label-unidad {
+    background-color: var(--verde-primario);
+    color: white;
+}
+
+/* Ajuste para que el input de cantidad se vea bien con el texto */
+.control-cantidad-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: white;
 }
