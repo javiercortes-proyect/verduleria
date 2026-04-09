@@ -40,7 +40,7 @@ function actualizarVista() {
     lista.innerHTML = carrito.map((p, i) => `
         <div class="item-carrito">
             <span>${p.nombre}</span>
-            <span>$${p.precio} <button onclick="borrar(${i})">❌</button></span>
+            <span>$${p.precio.toLocaleString('es-CL')} <button onclick="borrar(${i})">❌</button></span>
         </div>
     `).join('');
 
@@ -59,7 +59,7 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
     const suma = carrito.reduce((t, p) => t + p.precio, 0);
     const detalle = carrito.map(p => `- ${p.nombre} ($${p.precio})`).join("%0A");
     const miNumero = "56963536651"; 
-    const mensaje = `Hola Sra.Kathy! Quiero hacer un pedido:%0A${detalle}%0A%0A*Total: $${suma}*`;
+    const mensaje = `Hola Javier! Quiero hacer un pedido:%0A${detalle}%0A%0A*Total: $${suma}*`;
     window.open(`https://wa.me/${miNumero}?text=${mensaje}`, '_blank');
 });
 
