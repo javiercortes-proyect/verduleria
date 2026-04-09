@@ -103,3 +103,36 @@ document.getElementById('btn-cerrar-carrito').onclick = () => document.getElemen
 document.getElementById('btn-vaciar').onclick = () => { if(confirm("¿Vaciar todo el carrito?")) { carrito = []; actualizarVista(); dibujarProductos(); } };
 
 dibujarProductos();
+// CAMBIO DE TÍTULO EN EL HTML (Asegúrate que tu index.html diga Verduras)
+// Si quieres hacerlo por código, añade esto al inicio:
+// document.querySelector('.titulo-seccion h2').innerText = "Nuestras Verduras";
+
+window.borrar = function(index) {
+    const producto = carrito[index];
+    
+    if (producto.cantidadElegida > 1) {
+        // Si hay más de 1, restamos 1 unidad o 1 kilo
+        if (producto.unidadBase === 'un') {
+            producto.cantidadElegida -= 1;
+        } else {
+            // Para kilos, restamos de a 1 o el mínimo si es menor a 1
+            producto.cantidadElegida = Math.max(0, producto.cantidadElegida - 1);
+        }
+        
+        // Si después de restar queda en 0, lo eliminamos
+        if (producto.cantidadElegida === 0) {
+            carrito.splice(index, 1);
+        } else {
+            // Recalculamos el subtotal del item
+            producto.subtotal = Math.round(producto.cantidadElegida * producto.precioUnitario);
+        }
+    } else {
+        // Si solo queda 1, eliminamos el item completo
+        carrito.splice(index, 1);
+    }
+    
+    actualizarVista();
+    dibujarProductos();
+}
+
+// Asegúrate de que tu función actualizarVista use el icono de basurero 🗑️
