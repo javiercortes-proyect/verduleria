@@ -1,10 +1,29 @@
 const productos = [
-    { id: 1, nombre: "Berenjena", precio: 1500, img: "imagenes/berenjena.jpg", unidad: 'un' },
-    { id: 2, nombre: "Brócoli", precio: 1800, img: "imagenes/brocoli.jpg", unidad: 'un' },
-    { id: 3, nombre: "Cebolla", precio: 800, img: "imagenes/cebolla.jpg", unidad: 'kg' },
-    { id: 4, nombre: "Papa", precio: 800, precioSaco: 15000, img: "imagenes/papa.jpg", unidad: 'especial' },
-    { id: 5, nombre: "Tomate", precio: 1200, img: "imagenes/tomate.jpg", unidad: 'kg' },
-    { id: 6, nombre: "Zanahoria", precio: 800, img: "imagenes/zanahoria.jpg", unidad: 'kg' }
+    { id: 1, nombre: "Repollo", precio: 3000, img: "imagenes/repollo.jpg", unidad: 'un' },
+    { id: 2, nombre: "Coliflor", precio: 2000, img: "imagenes/coliflor.jpg", unidad: 'un' },
+    { id: 3, nombre: "Brócoli", precio: 1800, img: "imagenes/brocoli.jpg", unidad: 'un' },
+    { id: 4, nombre: "Beterraga", precio: 1500, img: "imagenes/beterraga.jpg", unidad: 'kg' },
+    { id: 5, nombre: "Ajíes", precio: 100, img: "imagenes/ajises.jpg", unidad: 'un' },
+    { id: 6, nombre: "Zapallo", precio: 1000, img: "imagenes/zapallo.jpg", unidad: 'kg' },
+    { id: 7, nombre: "Z. Italiano (3x1000)", precio: 333, img: "imagenes/zapallo-italiano.jpg", unidad: 'un' },
+    { id: 8, nombre: "Pepinos", precio: 500, img: "imagenes/pepino.jpg", unidad: 'un' },
+    { id: 9, nombre: "Morrones", precio: 500, img: "imagenes/pimenton.jpg", unidad: 'un' },
+    { id: 10, nombre: "Cebolla", precio: 800, img: "imagenes/cebolla.jpg", unidad: 'kg' },
+    { id: 11, nombre: "Zanahoria", precio: 800, img: "imagenes/zanahoria.jpg", unidad: 'kg' },
+    { id: 12, nombre: "Papa", precio: 800, precioSaco: 3500, img: "imagenes/papa.jpg", unidad: 'especial' }, // El 'saco' aquí actúa como la promo 5kg
+    { id: 13, nombre: "Lechuga Escarola", precio: 1000, img: "imagenes/escarola.jpg", unidad: 'un' },
+    { id: 14, nombre: "Lechuga Chilena", precio: 800, img: "imagenes/chilena.jpg", unidad: 'un' },
+    { id: 15, nombre: "Lechuga Marina", precio: 600, img: "imagenes/marina.jpg", unidad: 'un' },
+    { id: 16, nombre: "Lechuga Española", precio: 600, img: "imagenes/espanola.jpg", unidad: 'un' },
+    { id: 17, nombre: "Lechuga Francesa", precio: 600, img: "imagenes/francesa.jpg", unidad: 'un' },
+    { id: 18, nombre: "Lechuga Milanesa", precio: 600, img: "imagenes/milanesa.jpg", unidad: 'un' },
+    { id: 19, nombre: "Acelga", precio: 500, img: "imagenes/acelga.jpg", unidad: 'un' },
+    { id: 20, nombre: "Espinacas", precio: 1000, img: "imagenes/espinaca.jpg", unidad: 'un' },
+    { id: 21, nombre: "Cilantro", precio: 800, img: "imagenes/cilantro.jpg", unidad: 'un' },
+    { id: 22, nombre: "Choclo Americano (3x1000)", precio: 333, img: "imagenes/choclo.jpg", unidad: 'un' },
+    { id: 23, nombre: "Bruselas (Malla)", precio: 1000, img: "imagenes/bruselas.jpg", unidad: 'un' },
+    { id: 24, nombre: "Palta", precio: 3000, img: "imagenes/palta.jpg", unidad: 'kg' },
+    { id: 25, nombre: "Limón", precio: 1500, img: "imagenes/limon.jpg", unidad: 'kg' }
 ];
 
 let carrito = [];
