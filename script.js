@@ -77,7 +77,7 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
     let detalle = carrito.map(p => `- ${p.nombre} ($${p.precio})`).join("%0A");
     
     // RECUERDA: Cambia el número por el tuyo real
-    const miNumero = "56912345678"; 
+    const miNumero = "56963536651"; 
     const mensaje = `Hola Javier! Quiero hacer un pedido:%0A${detalle}%0A%0A*Total: $${suma}*`;
     
     window.open(`https://wa.me/${miNumero}?text=${mensaje}`, '_blank');
