@@ -5,8 +5,8 @@ const productos = [
     { 
         id: 4, 
         nombre: "Papa", 
-        precio: 800, // precio por kilo
-        precioSaco: 15000, // precio por saco
+        precio: 800, 
+        precioSaco: 15000, 
         img: "imagenes/papa.jpg", 
         unidad: 'especial' 
     },
@@ -29,7 +29,7 @@ function dibujarProductos() {
                     <label>Cantidad:</label>
                     <input type="number" class="selector-cantidad" id="qty-${p.id}" value="1" min="0.5" step="0.5"> <span>Kg</span>
                 </div>`;
-        } else if (p.unidad === 'especial') { // Caso de la PAPA
+        } else if (p.unidad === 'especial') { 
             controles = `
                 <div class="contenedor-controles">
                     <select class="selector-tipo" id="tipo-${p.id}">
@@ -45,7 +45,7 @@ function dibujarProductos() {
                 <img src="${p.img}" alt="${p.nombre}" class="producto-img">
                 <div class="info-producto">
                     <h3>${p.nombre}</h3>
-                    <p class="precio">$${p.precio.toLocaleString('es-CL')} <small>${p.unidad === 'un' ? '/ un' : ''}</small></p>
+                    <p class="precio">$${p.precio.toLocaleString('es-CL')} ${p.unidad === 'un' ? '<small>/ un</small>' : ''}</p>
                     ${controles}
                     <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito</button>
                 </div>
@@ -60,7 +60,6 @@ window.agregar = function(id) {
     let precioFinal = p.precio;
     let unidadFinal = p.unidad === 'un' ? 'un' : 'kg';
 
-    // Lógica especial para Papas
     if (p.unidad === 'especial') {
         const tipo = document.getElementById(`tipo-${id}`).value;
         if (tipo === 'saco') {
@@ -75,7 +74,7 @@ window.agregar = function(id) {
     if (p && cantidad > 0) {
         const itemCarrito = {
             ...p,
-            nombre: `${p.nombre} (${unidadFinal})`,
+            nombreUnidad: `${p.nombre} (${unidadFinal})`,
             cantidadElegida: cantidad,
             subtotal: Math.round(precioFinal * cantidad)
         };
@@ -90,12 +89,15 @@ function actualizarVista() {
     const contador = document.getElementById('contador-carrito');
 
     lista.innerHTML = carrito.map((p, i) => `
-        <div class="item-carrito">
+        <div class="item-carrito" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
             <div style="text-align: left;">
-                <strong>${p.nombre}</strong><br>
+                <strong style="color:var(--oscuro);">${p.nombreUnidad}</strong><br>
                 <small>${p.cantidadElegida} x $${(p.subtotal/p.cantidadElegida).toLocaleString('es-CL')}</small>
             </div>
-            <span>$${p.subtotal.toLocaleString('es-CL')} <button onclick="borrar(${i})">❌</button></span>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-weight:bold;">$${p.subtotal.toLocaleString('es-CL')}</span>
+                <button onclick="borrar(${i})" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">❌</button>
+            </div>
         </div>
     `).join('');
 
@@ -112,14 +114,14 @@ window.borrar = function(index) {
 document.getElementById('btn-pagar').addEventListener('click', () => {
     if (carrito.length === 0) return alert("Carrito vacío");
     const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
-    const detalle = carrito.map(p => `- ${p.nombre}: ${p.cantidadElegida} ($${p.subtotal.toLocaleString('es-CL')})`).join("%0A");
+    const detalle = carrito.map(p => `✅ ${p.nombreUnidad}: ${p.cantidadElegida} ($${p.subtotal.toLocaleString('es-CL')})`).join("%0A");
     const miNumero = "56963536651"; 
-    const mensaje = `Hola Javier! Mi pedido es:%0A${detalle}%0A%0A*Total: $${suma.toLocaleString('es-CL')}*`;
+    const mensaje = `¡Hola Javier! 🛒 Quiero hacer este pedido:%0A%0A${detalle}%0A%0A💰 *Total a pagar: $${suma.toLocaleString('es-CL')}*`;
     window.open(`https://wa.me/${miNumero}?text=${mensaje}`, '_blank');
 });
 
 document.getElementById('abrir-carrito').onclick = () => document.getElementById('carrito-lateral').classList.remove('oculto');
 document.getElementById('btn-cerrar-carrito').onclick = () => document.getElementById('carrito-lateral').classList.add('oculto');
-document.getElementById('btn-vaciar').onclick = () => { carrito = []; actualizarVista(); };
+document.getElementById('btn-vaciar').onclick = () => { if(confirm("¿Seguro quieres vaciar el carrito?")) { carrito = []; actualizarVista(); } };
 
 dibujarProductos();

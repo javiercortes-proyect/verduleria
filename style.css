@@ -4,6 +4,7 @@
     --verde-fondo: #0d4d26; 
     --blanco: #ffffff;
     --oscuro: #1e272e;
+    --rojo-error: #e74c3c;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,7 +29,7 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 .nav-links a { color: white; text-decoration: none; font-weight: bold; }
 
 .hero {
-    height: 40vh;
+    height: 30vh;
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                 url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80');
     background-size: cover;
@@ -55,7 +56,6 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 .titulo-seccion h2 {
     font-size: 3rem;
     font-weight: 800;
-    text-transform: uppercase;
 }
 
 .grid-productos {
@@ -64,7 +64,6 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     gap: 30px;
 }
 
-/* TARJETAS MEJORADAS */
 .producto-card {
     background: white;
     border-radius: 25px;
@@ -82,12 +81,10 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     height: 200px;
     object-fit: contain;
     padding: 20px;
-    background: #f9f9f9;
 }
 
 .info-producto { padding: 25px; text-align: center; }
 
-/* ESTILO DEL SELECTOR DE KILOS/SACO */
 .contenedor-controles {
     margin: 15px 0;
     background: #f1f8e9;
@@ -100,9 +97,7 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     padding: 8px;
     border: 2px solid var(--verde-primario);
     border-radius: 8px;
-    font-size: 1rem;
     text-align: center;
-    outline: none;
 }
 
 .selector-tipo {
@@ -111,12 +106,9 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     margin-bottom: 10px;
     border: 2px solid var(--verde-primario);
     border-radius: 8px;
-    background: white;
-    font-weight: bold;
-    color: var(--verde-oscuro);
 }
 
-.precio { color: var(--verde-primario); font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
+.precio { color: var(--verde-primario); font-size: 1.6rem; font-weight: 800; }
 
 .btn-agregar {
     background: var(--verde-primario);
@@ -126,14 +118,10 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     border-radius: 12px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 1rem;
     width: 100%;
-    transition: 0.3s;
 }
 
-.btn-agregar:hover { background: var(--verde-oscuro); }
-
-/* CARRITO LATERAL */
+/* --- DISEÑO DEL CARRITO MEJORADO --- */
 #carrito-lateral {
     position: fixed;
     right: 0; top: 0;
@@ -148,9 +136,81 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 
 .oculto { display: none !important; }
 
-.carrito-header { padding: 20px; background: var(--verde-primario); color: white; display: flex; justify-content: space-between; align-items: center; }
-.carrito-body { flex-grow: 1; padding: 20px; overflow-y: auto; }
+.carrito-header { 
+    padding: 20px; 
+    background: var(--verde-primario); 
+    color: white; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.carrito-body { 
+    flex-grow: 1; 
+    padding: 20px; 
+    overflow-y: auto; 
+}
+
+/* FOOTER DEL CARRITO (BOTONES NUEVOS) */
+.carrito-footer {
+    padding: 25px;
+    border-top: 2px solid #eee;
+    background: #fcfcfc;
+}
+
+.total-pago {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--oscuro);
+}
+
+.btn-comprar {
+    background: #25d366; /* Color oficial WhatsApp */
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    transition: 0.3s;
+    margin-bottom: 12px;
+}
+
+.btn-comprar:hover {
+    background: #128c7e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+.btn-vaciar {
+    background: #f8f9fa;
+    color: #a0a0a0;
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+    transition: 0.3s;
+}
+
+.btn-vaciar:hover {
+    background: var(--rojo-error);
+    color: white;
+    border-color: var(--rojo-error);
+}
 
 /* CONTACTO */
 #contacto { padding: 80px 5%; background: var(--oscuro); color: white; text-align: center; }
-.contacto-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; display: inline-block; margin-top: 20px; }
+.contacto-card { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; display: inline-block; }
