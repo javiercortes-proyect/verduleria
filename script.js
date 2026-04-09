@@ -1,19 +1,41 @@
 // ===== CARRITO =====
 let carrito = [];
 
-// ===== BOTONES AGREGAR =====
-const botonesAgregar = document.querySelectorAll('.btn-agregar');
+// ===== ELEMENTOS =====
+const panel     = document.getElementById('carrito-panel');
+const overlay   = document.getElementById('carrito-overlay');
+const lista     = document.getElementById('carrito-lista');
+const contador  = document.getElementById('contador');
+const total     = document.getElementById('carrito-total');
+const btnCerrar = document.getElementById('carrito-cerrar');
+const btnVaciar = document.getElementById('btn-vaciar');
 
-botonesAgregar.forEach(function(boton) {
+// ===== ABRIR Y CERRAR PANEL =====
+document.querySelector('.btn-carrito').addEventListener('click', abrirCarrito);
+btnCerrar.addEventListener('click', cerrarCarrito);
+overlay.addEventListener('click', cerrarCarrito);
+
+function abrirCarrito() {
+  panel.classList.add('abierto');
+  overlay.classList.add('activo');
+}
+
+function cerrarCarrito() {
+  panel.classList.remove('abierto');
+  overlay.classList.remove('activo');
+}
+
+// ===== AGREGAR PRODUCTO =====
+document.querySelectorAll('.btn-agregar').forEach(function(boton) {
   boton.addEventListener('click', function() {
 
     const tarjeta = boton.parentElement;
     const nombre  = tarjeta.querySelector('h3').textContent;
     const precio  = tarjeta.querySelector('.precio').textContent;
 
-    carrito.push({ nombre: nombre, precio: precio });
+    carrito.push({ nombre, precio });
 
-    actualizarContador();
+    actualizarCarrito();
 
     boton.textContent = '✅ Agregado';
     boton.style.backgroundColor = '#388e3c';
@@ -26,27 +48,37 @@ botonesAgregar.forEach(function(boton) {
   });
 });
 
-// ===== ACTUALIZAR CONTADOR =====
-function actualizarContador() {
-  document.getElementById('contador').textContent = carrito.length;
+// ===== ELIMINAR PRODUCTO =====
+function eliminarProducto(indice) {
+  carrito.splice(indice, 1);
+  actualizarCarrito();
 }
 
-// ===== VER CARRITO =====
-document.querySelector('.btn-carrito').addEventListener('click', function() {
+// ===== VACIAR CARRITO =====
+btnVaciar.addEventListener('click', function() {
+  carrito = [];
+  actualizarCarrito();
+});
+
+// ===== ACTUALIZAR VISTA =====
+function actualizarCarrito() {
+  contador.textContent = carrito.length;
+  total.textContent = carrito.length;
 
   if (carrito.length === 0) {
-    alert('Tu carrito está vacío 🛒');
+    lista.innerHTML = '<p class="carrito-vacio">Tu carrito está vacío</p>';
     return;
   }
 
-  let mensaje = '🛒 Tu carrito:\n\n';
-
-  carrito.forEach(function(producto, indice) {
-    mensaje += (indice + 1) + '. ' + producto.nombre + ' — ' + producto.precio + '\n';
-  });
-
-  mensaje += '\nTotal de productos: ' + carrito.length;
-
-  alert(mensaje);
-
-});
+  lista.innerHTML = carrito.map(function(producto, indice) {
+    return `
+      <div class="carrito-item">
+        <div class="carrito-item-info">
+          <span class="carrito-item-nombre">${producto.nombre}</span>
+          <span class="carrito-item-precio">${producto.precio}</span>
+        </div>
+        <button class="carrito-item-eliminar" onclick="eliminarProducto(${indice})">🗑</button>
+      </div>
+    `;
+  }).join('');
+}
