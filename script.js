@@ -45,7 +45,7 @@ function dibujarProductos() {
                 <img src="${p.img}" alt="${p.nombre}" class="producto-img">
                 <div class="info-producto">
                     <h3>${p.nombre}</h3>
-                    <p class="precio">$${p.precio.toLocaleString('es-CL')} ${p.unidad === 'un' ? '<small>/ un</small>' : ''}</p>
+                    <p class="precio">$${p.precio.toLocaleString('es-CL')} ${p.unidad === 'un' ? '<small>/ unidad</small>' : ''}</p>
                     ${controles}
                     <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito</button>
                 </div>
@@ -58,21 +58,20 @@ window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
     let cantidadInput = parseFloat(document.getElementById(`qty-${id}`)?.value || 1);
     let precioFinal = p.precio;
-    let unidadFinal = p.unidad === 'un' ? 'un' : 'kg';
+    let unidadBase = p.unidad;
 
     if (p.unidad === 'especial') {
         const tipo = document.getElementById(`tipo-${id}`).value;
         if (tipo === 'saco') {
             precioFinal = p.precioSaco;
-            unidadFinal = 'Saco';
+            unidadBase = 'saco';
         } else {
             precioFinal = p.precio;
-            unidadFinal = 'kg';
+            unidadBase = 'kg';
         }
     }
 
-    // Buscamos si el producto con esa unidad ya está en el carrito para agruparlo
-    const itemExistente = carrito.find(item => item.id === id && item.unidadTexto === unidadFinal);
+    const itemExistente = carrito.find(item => item.id === id && item.unidadBase === unidadBase);
 
     if (itemExistente) {
         itemExistente.cantidadElegida += cantidadInput;
@@ -81,7 +80,7 @@ window.agregar = function(id) {
         carrito.push({
             id: p.id,
             nombreBase: p.nombre,
-            unidadTexto: unidadFinal,
+            unidadBase: unidadBase,
             cantidadElegida: cantidadInput,
             precioUnitario: precioFinal,
             subtotal: Math.round(cantidadInput * precioFinal)
@@ -95,18 +94,25 @@ function actualizarVista() {
     const totalMsg = document.getElementById('carrito-total-precio');
     const contador = document.getElementById('contador-carrito');
 
-    lista.innerHTML = carrito.map((p, i) => `
-        <div class="item-carrito" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
-            <div style="text-align: left;">
-                <strong style="color:var(--oscuro);">${p.nombreBase} (${p.unidadTexto})</strong><br>
-                <small>${p.cantidadElegida} x $${p.precioUnitario.toLocaleString('es-CL')}</small>
+    lista.innerHTML = carrito.map((p, i) => {
+        let textoUnidad = p.unidadBase;
+        if(p.unidadBase === 'un') {
+            textoUnidad = p.cantidadElegida === 1 ? 'unidad' : 'unidades';
+        }
+
+        return `
+            <div class="item-carrito" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <div style="text-align: left;">
+                    <strong style="color:var(--oscuro);">${p.nombreBase}</strong><br>
+                    <small>${p.cantidadElegida} ${textoUnidad} x $${p.precioUnitario.toLocaleString('es-CL')}</small>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-weight:bold;">$${p.subtotal.toLocaleString('es-CL')}</span>
+                    <button onclick="borrar(${i})" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">❌</button>
+                </div>
             </div>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span style="font-weight:bold;">$${p.subtotal.toLocaleString('es-CL')}</span>
-                <button onclick="borrar(${i})" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">❌</button>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 
     const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
     totalMsg.innerText = `$${suma.toLocaleString('es-CL')}`;
@@ -122,8 +128,13 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
     if (carrito.length === 0) return alert("Carrito vacío");
     const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
     
-    // Formato de mensaje solicitado: Sin carrito, con unidad clara y agrupado
-    const detalle = carrito.map(p => `✅ ${p.nombreBase}: ${p.cantidadElegida} ${p.unidadTexto} ($${p.subtotal.toLocaleString('es-CL')})`).join("%0A");
+    const detalle = carrito.map(p => {
+        let etiquetaUnidad = p.unidadBase;
+        if(p.unidadBase === 'un') {
+            etiquetaUnidad = p.cantidadElegida === 1 ? 'unidad' : 'unidades';
+        }
+        return `${p.nombreBase}: ${p.cantidadElegida} ${etiquetaUnidad} ($${p.subtotal.toLocaleString('es-CL')})`;
+    }).join("%0A");
     
     const miNumero = "56963536651"; 
     const mensaje = `¡Hola Sra. Kathy! Quiero hacer este pedido:%0A%0A${detalle}%0A%0A*Total a pagar: $${suma.toLocaleString('es-CL')}*`;
