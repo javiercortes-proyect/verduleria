@@ -232,3 +232,69 @@ document.getElementById('btn-cerrar-carrito').onclick = () => document.getElemen
 
 dibujarProductos();
 actualizarVista();
+
+function dibujarProductos() {
+    const contenedor = document.getElementById('contenedor-productos');
+    if (!contenedor) return;
+    
+    contenedor.innerHTML = productos.map(p => {
+        let paso = p.unidad === 'kg' ? 0.5 : 1;
+        let selectorEspecial = "";
+        
+        // Determinamos qué texto poner al lado del precio principal
+        // Si es 'kg' ponemos 'Kg', para todo lo demás ponemos 'C/U'
+        let textoUnidadPrecio = p.unidad === 'kg' ? 'Kg' : 'C/U';
+
+        if (p.unidad === 'especial') {
+            selectorEspecial = `
+                <div class="selector-unidad">
+                    <input type="radio" name="tipo-${p.id}" id="kilo-${p.id}" value="kg" class="radio-unidad" checked>
+                    <label for="kilo-${p.id}" class="label-unidad">Kg $800</label>
+                    <input type="radio" name="tipo-${p.id}" id="promo-${p.id}" value="promo" class="radio-unidad">
+                    <label for="promo-${p.id}" class="label-unidad">5kg $3500</label>
+                    <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad">
+                    <label for="saco-${p.id}" class="label-unidad">Saco $15mil</label>
+                </div>`;
+        } else if (p.unidad === 'ajo-especial') {
+            selectorEspecial = `
+                <div class="selector-unidad">
+                    <input type="radio" name="tipo-${p.id}" id="u-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u-${p.id}" class="label-unidad">1x$300</label>
+                    <input type="radio" name="tipo-${p.id}" id="p2-${p.id}" value="p2" class="radio-unidad">
+                    <label for="p2-${p.id}" class="label-unidad">2x$500</label>
+                    <input type="radio" name="tipo-${p.id}" id="p5-${p.id}" value="p5" class="radio-unidad">
+                    <label for="p5-${p.id}" class="label-unidad">5x$1000</label>
+                </div>`;
+        } else if (p.unidad === 'promo-3x') {
+            selectorEspecial = `
+                <div class="selector-unidad">
+                    <input type="radio" name="tipo-${p.id}" id="u3-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u3-${p.id}" class="label-unidad">1 x $${p.precio}</label>
+                    <input type="radio" name="tipo-${p.id}" id="p3-${p.id}" value="p3" class="radio-unidad">
+                    <label for="p3-${p.id}" class="label-unidad">3 x $1000</label>
+                </div>`;
+        } else if (p.unidad === 'promo-2x') {
+            selectorEspecial = `
+                <div class="selector-unidad">
+                    <input type="radio" name="tipo-${p.id}" id="u2-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u2-${p.id}" class="label-unidad">1 x $${p.precio}</label>
+                    <input type="radio" name="tipo-${p.id}" id="p2pep-${p.id}" value="p2" class="radio-unidad">
+                    <label for="p2pep-${p.id}" class="label-unidad">2 x $1000</label>
+                </div>`;
+        }
+
+        return `
+            <div class="producto-card">
+                <img src="${p.img}" alt="${p.nombre}" class="producto-img">
+                <h3>${p.nombre}</h3>
+                <p class="precio">$${p.precio.toLocaleString('es-CL')} ${textoUnidadPrecio}</p>
+                ${selectorEspecial}
+                <div class="wrapper-cantidad">
+                    <button class="btn-qty" onclick="bajarQty(${p.id}, ${paso})">−</button>
+                    <input type="number" class="input-cantidad-bonito" id="qty-${p.id}" value="1" step="${paso}" readonly>
+                    <button class="btn-qty" onclick="subirQty(${p.id}, ${paso})">+</button>
+                </div>
+                <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito</button>
+            </div>`;
+    }).join('');
+}
