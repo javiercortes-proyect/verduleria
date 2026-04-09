@@ -10,7 +10,7 @@ const productos = [
     { id: 9, nombre: "Ajo", precio: 300, precioSaco: 500, precioPromo: 1000, img: "imagenes/ajo.jpg", unidad: 'ajo-especial' },
     { id: 10, nombre: "Cebolla", precio: 800, img: "imagenes/cebolla.jpg", unidad: 'kg' },
     { id: 11, nombre: "Zanahoria", precio: 800, img: "imagenes/zanahoria.jpg", unidad: 'kg' },
-    { id: 12, nombre: "Papa", precio: 800, precioSaco: 3500, img: "imagenes/papa.jpg", unidad: 'especial' },
+    { id: 12, nombre: "Papa", precio: 800, precioSaco: 3500, precioSacoCompleto: 15000, img: "imagenes/papa.jpg", unidad: 'especial' },
     { id: 13, nombre: "Lechuga Escarola", precio: 1000, img: "imagenes/escarola.jpg", unidad: 'un' },
     { id: 14, nombre: "Lechuga Chilena", precio: 800, img: "imagenes/chilena.jpg", unidad: 'un' },
     { id: 15, nombre: "Lechuga Marina", precio: 600, img: "imagenes/marina.jpg", unidad: 'un' },
@@ -44,9 +44,11 @@ function dibujarProductos() {
             selectorEspecial = `
                 <div class="selector-unidad">
                     <input type="radio" name="tipo-${p.id}" id="kilo-${p.id}" value="kg" class="radio-unidad" checked>
-                    <label for="kilo-${p.id}" class="label-unidad">Kilo $800</label>
+                    <label for="kilo-${p.id}" class="label-unidad">Kg $800</label>
+                    <input type="radio" name="tipo-${p.id}" id="promo-${p.id}" value="promo" class="radio-unidad">
+                    <label for="promo-${p.id}" class="label-unidad">5kg $3500</label>
                     <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad">
-                    <label for="saco-${p.id}" class="label-unidad">5kg x $3500</label>
+                    <label for="saco-${p.id}" class="label-unidad">Saco $15mil</label>
                 </div>`;
         } else if (p.unidad === 'ajo-especial') {
             selectorEspecial = `
@@ -119,8 +121,12 @@ window.agregar = function(id) {
 
     if (p.unidad === 'especial') {
         if (document.getElementById(`saco-${id}`).checked) {
+            nombreFinal = "Papa (Saco 25kg)";
+            precioFinal = p.precioSacoCompleto; 
+            unidadFinal = "saco";
+        } else if (document.getElementById(`promo-${id}`).checked) {
             nombreFinal = "Papa (Promo 5kg)";
-            precioFinal = p.precioSaco;
+            precioFinal = p.precioSaco; 
             unidadFinal = "promo";
         } else {
             nombreFinal = "Papa (Kilo)";
@@ -130,15 +136,15 @@ window.agregar = function(id) {
     } else if (p.unidad === 'ajo-especial') {
         if (document.getElementById(`p2-${id}`).checked) {
             nombreFinal = "Ajo (Promo 2x500)";
-            precioFinal = p.precioSaco; // 500
+            precioFinal = p.precioSaco; 
             unidadFinal = "promo";
         } else if (document.getElementById(`p5-${id}`).checked) {
             nombreFinal = "Ajo (Promo 5x1000)";
-            precioFinal = p.precioPromo; // 1000
+            precioFinal = p.precioPromo; 
             unidadFinal = "promo";
         } else {
             nombreFinal = "Ajo (Unidad)";
-            precioFinal = p.precio; // 300
+            precioFinal = p.precio; 
             unidadFinal = "un";
         }
     }
@@ -181,6 +187,7 @@ document.getElementById('btn-pagar').onclick = () => {
     carrito.forEach(p => {
         let txtU = p.unidad === 'kg' ? 'Kg' : (p.cantidad === 1 ? 'unidad' : 'unidades');
         if(p.unidad === 'promo') txtU = 'promo(s)';
+        if(p.unidad === 'saco') txtU = p.cantidad === 1 ? 'saco' : 'sacos';
         mensaje += `• ${p.nombre}: ${p.cantidad} ${txtU} - $${p.subtotal.toLocaleString('es-CL')}\n`;
     });
     const total = carrito.reduce((t, p) => t + p.subtotal, 0);
