@@ -110,19 +110,18 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 #carrito-lateral {
     position: fixed;
     right: 0; top: 0;
-    width: 380px; /* Un poco más ancho para que se vea mejor */
+    width: 380px; 
     height: 100%;
     background: white;
     z-index: 2000;
-    box-shadow: -5px 0 25px rgba(0,0,0,0.25); /* Sombra más pronunciada */
+    box-shadow: -5px 0 25px rgba(0,0,0,0.25); 
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease-out; /* Animación de deslizamiento */
+    transition: transform 0.3s ease-out; 
 }
 
-/* Estilo para cuando está oculto (se desliza hacia la derecha) */
 #carrito-lateral.oculto {
-    display: flex !important; /* Asegura que siga existiendo para animarse */
+    display: flex !important; 
     transform: translateX(100%);
 }
 
@@ -146,7 +145,7 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     color: white;
     border: none;
     width: 35px; height: 35px;
-    border-radius: 50%; /* Botón X redondo */
+    border-radius: 50%; 
     cursor: pointer;
     font-weight: bold;
     display: flex; align-items: center; justify-content: center;
@@ -156,21 +155,20 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 
 .carrito-body {
     flex-grow: 1;
-    overflow-y: auto; /* Barra de desplazamiento bonita */
+    overflow-y: auto; 
     padding: 15px;
 }
 
-/* DISEÑO DE CADA ITEM DENTRO DEL CARRITO */
 .item-carrito {
     background: #fcfcfc;
     border: 1px solid #f0f0f0;
-    border-radius: 12px; /* Bordes redondeados en los items */
+    border-radius: 12px; 
     padding: 15px;
     margin-bottom: 12px;
     display: flex;
     flex-direction: column;
     gap: 5px;
-    position: relative; /* Para el botón de borrar */
+    position: relative; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.03);
 }
 
@@ -197,7 +195,7 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     border: none;
     cursor: pointer;
     font-size: 1.3rem;
-    color: #ff4d4d; /* Ícono🗑️ rojo */
+    color: #ff4d4d; 
     opacity: 0.7;
 }
 
@@ -221,9 +219,8 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     margin-bottom: 20px;
 }
 
-/* BOTONES DE COLORES DEL FINAL */
 .btn-comprar {
-    background-color: #25d366 !important; /* Color verde WhatsApp */
+    background-color: #25d366 !important; 
     color: white !important;
     border: none;
     padding: 15px;
@@ -241,7 +238,7 @@ nav { display: flex; justify-content: space-between; align-items: center; }
 }
 
 .btn-vaciar {
-    background-color: #ff4d4d !important; /* Color rojo */
+    background-color: #ff4d4d !important; 
     color: white !important;
     border: none;
     padding: 12px;
@@ -262,12 +259,12 @@ footer {
     text-align: center;
     border-top: 1px solid #eee;
 }
-/* Estilo mejorado para el selector de cantidad en las tarjetas */
+
 .selector-cantidad {
     width: 80px;
     padding: 10px;
     border: 2px solid var(--verde-primario);
-    border-radius: 25px; /* Bordes redondos */
+    border-radius: 25px; 
     text-align: center;
     font-size: 1rem;
     font-weight: bold;
@@ -281,7 +278,6 @@ footer {
     box-shadow: 0 0 8px rgba(39, 174, 96, 0.4);
 }
 
-/* Diseño de los botones dentro del carrito para eliminar 1 a 1 */
 .controles-item-carrito {
     display: flex;
     align-items: center;
@@ -305,7 +301,7 @@ footer {
 .btn-menos:hover {
     background: #e0e0e0;
 }
-/* Estilos para el selector de unidad (Kilo/Saco) */
+
 .selector-unidad {
     display: flex;
     gap: 5px;
@@ -333,7 +329,6 @@ footer {
     color: white;
 }
 
-/* Ajuste para que el input de cantidad se vea bien con el texto */
 .control-cantidad-wrapper {
     display: flex;
     align-items: center;
@@ -342,22 +337,28 @@ footer {
     margin-bottom: 10px;
     color: white;
 }
-/* --- COPIA Y PEGA ESTO AL FINAL DE TU CSS --- */
 
-/* Asegura que el carrito esté por encima de todo */
+/* ========================================= */
+/* AJUSTES NUEVOS: PRIORIDAD Y CELULAR       */
+/* ========================================= */
+
+/* Asegura que el carrito siempre esté por encima de cualquier otro elemento */
 #carrito-lateral {
-    z-index: 9999 !important; /* Prioridad máxima sobre botones y header */
+    z-index: 9999 !important; 
 }
 
-/* Ajustes específicos para celulares */
+/* Ajustes para que en celular el diseño no se rompa */
 @media (max-width: 600px) {
     #carrito-lateral {
-        width: 100% !important; /* Ocupa toda la pantalla para que no se vea cortado */
+        width: 100% !important; /* Ocupa todo el ancho en móviles */
     }
 
-    /* Opcional: ajustar el grid para que las tarjetas no se amontonen */
     .grid-productos {
-        grid-template-columns: 1fr !important; 
+        grid-template-columns: 1fr !important; /* Una sola columna de productos */
         padding: 10px;
+    }
+
+    .nav-links {
+        gap: 10px; /* Menos espacio entre links del menú */
     }
 }
