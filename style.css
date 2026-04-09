@@ -1,7 +1,7 @@
 :root {
     --verde-primario: #27ae60;
     --verde-oscuro: #1b5e20;
-    --verde-fondo: #0d4d26; /* Un verde esmeralda profundo */
+    --verde-fondo: #0d4d26; 
     --blanco: #ffffff;
     --oscuro: #1e272e;
 }
@@ -42,27 +42,32 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     text-align: center;
 }
 
-/* SECCIÓN PRODUCTOS - FONDO CON PATRÓN */
+/* SECCIÓN PRODUCTOS - ESTILOS ACTUALIZADOS */
 #productos {
     padding: 60px 5%;
-    /* ESTA ES LA CLAVE: Fondo verde profundo con un patrón repetido */
     background-color: var(--verde-fondo);
-    background-image: 
-        linear-gradient(rgba(13, 77, 38, 0.9), rgba(13, 77, 38, 0.95)), /* Capa de tinte para legibilidad */
-        url('imagenes/patron-vegetales.png'); /* Ruta a una imagen de patrón repetible en tu carpeta imagenes */
-    background-size: cover;
-    background-attachment: fixed; /* El patrón permanece fijo al hacer scroll */
-    border-radius: 20px; /* Bordes redondeados para la sección */
-    margin: 20px 0;
+    /* Nota: Si tienes una imagen de patrón, agrégala aquí como hicimos antes */
+    min-height: 100vh;
+}
+
+/* CENTRADO Y TAMAÑO GRANDE PARA EL TÍTULO */
+.titulo-seccion {
+    text-align: center; /* Centra el texto */
+    margin-bottom: 50px;
+    color: white;
 }
 
 .titulo-seccion h2 {
-    color: white; /* Cambiar texto a blanco para contraste */
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Sombra de texto para legibilidad */
+    font-size: 3.5rem; /* Tamaño mucho más grande */
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .titulo-seccion p {
-    color: #e0f2f1; /* Un color de texto más claro */
+    font-size: 1.4rem; /* Subtítulo más legible */
+    color: #e0f2f1;
 }
 
 .grid-productos {
@@ -71,32 +76,28 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     gap: 30px;
 }
 
-/* TARJETAS - RESALTADAS SOBRE EL FONDO CON PATRÓN */
+/* TARJETAS */
 .producto-card {
-    background: rgba(255, 255, 255, 0.98); /* Blanco ligeramente transparente */
+    background: white;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25); /* Sombra más fuerte para contraste */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     transition: 0.3s;
     text-align: center;
-    display: flex;
-    flex-direction: column;
 }
 
 .producto-card:hover {
-    transform: translateY(-12px) scale(1.03); /* Efecto hover más pronunciado */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+    transform: translateY(-10px);
 }
 
 .producto-img {
     width: 100%;
     height: 220px;
     object-fit: contain;
-    background: #fdfdfd;
     padding: 15px;
 }
 
-.info-producto { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.info-producto { padding: 20px; }
 .precio { color: var(--verde-primario); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
 
 .btn-agregar {
@@ -118,16 +119,15 @@ nav { display: flex; justify-content: space-between; align-items: center; }
     height: 100%;
     background: white;
     z-index: 2000;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
 }
 
 .oculto { display: none !important; }
 
 .carrito-header { padding: 20px; background: var(--verde-primario); color: white; display: flex; justify-content: space-between; }
 .carrito-body { flex-grow: 1; padding: 20px; overflow-y: auto; }
-.item-carrito { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
 /* CONTACTO */
 #contacto { padding: 60px 5%; background: var(--oscuro); color: white; text-align: center; }
