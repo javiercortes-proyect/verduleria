@@ -9,24 +9,23 @@ const productos = [
 
 let carrito = [];
 
+// DIBUJAR PRODUCTOS EN LA TIENDA
 function dibujarProductos() {
     const contenedor = document.getElementById('contenedor-productos');
     if (!contenedor) return;
     
     contenedor.innerHTML = productos.map(p => {
-        let unidadTexto = p.unidad === 'kg' ? 'Kg' : 'Un';
-        let paso = p.unidad === 'kg' ? 0.5 : 1;
+        let paso = p.unit === 'kg' ? 0.5 : 1;
         
         let selectorEspecial = "";
         if (p.unidad === 'especial') {
             selectorEspecial = `
                 <div class="selector-unidad">
-                    <input type="radio" name="tipo-${p.id}" id="kilo-${p.id}" value="kg" class="radio-unidad" checked onclick="document.getElementById('unidad-${p.id}').innerText='Kg'">
+                    <input type="radio" name="tipo-${p.id}" id="kilo-${p.id}" value="kg" class="radio-unidad" checked>
                     <label for="kilo-${p.id}" class="label-unidad">Kilo</label>
-                    <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad" onclick="document.getElementById('unidad-${p.id}').innerText='Saco'">
+                    <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad">
                     <label for="saco-${p.id}" class="label-unidad">Saco</label>
                 </div>`;
-            unidadTexto = 'Kg';
         }
 
         return `
@@ -38,7 +37,6 @@ function dibujarProductos() {
                 <div class="wrapper-cantidad">
                     <button class="btn-qty" onclick="bajarQty(${p.id}, ${paso})">−</button>
                     <input type="number" class="input-cantidad-bonito" id="qty-${p.id}" value="1" step="${paso}" readonly>
-                    <span class="texto-unidad" id="unidad-${p.id}">${unidadTexto}</span>
                     <button class="btn-qty" onclick="subirQty(${p.id}, ${paso})">+</button>
                 </div>
                 <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito</button>
@@ -46,6 +44,7 @@ function dibujarProductos() {
     }).join('');
 }
 
+// FUNCIONES PARA LOS BOTONES + Y - EN LAS TARJETAS
 window.subirQty = function(id, paso) {
     const input = document.getElementById(`qty-${id}`);
     input.value = parseFloat(input.value) + paso;
@@ -58,6 +57,7 @@ window.bajarQty = function(id, paso) {
     }
 };
 
+// ACTUALIZAR EL CARRITO LATERAL Y EL CONTADOR DEL HEADER
 function actualizarVista() {
     const lista = document.getElementById('lista-carrito');
     const totalMsg = document.getElementById('carrito-total-precio');
@@ -77,10 +77,13 @@ function actualizarVista() {
 
     const sumaTotal = carrito.reduce((t, p) => t + p.subtotal, 0);
     totalMsg.innerText = `$${sumaTotal.toLocaleString('es-CL')}`;
+    
+    // Contador real de artículos totales
     const cantidadTotalArticulos = carrito.reduce((total, producto) => total + producto.cantidad, 0);
     contador.innerText = cantidadTotalArticulos; 
 }
 
+// AGREGAR AL CARRITO
 window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
     let cant = parseFloat(document.getElementById(`qty-${id}`).value);
@@ -106,6 +109,7 @@ window.agregar = function(id) {
     document.getElementById(`qty-${id}`).value = 1;
 };
 
+// BORRAR O DESCONTAR UNO
 window.borrarUno = function(index) {
     const item = carrito[index];
     const paso = item.unidad === 'kg' ? 0.5 : 1;
@@ -118,7 +122,7 @@ window.borrarUno = function(index) {
     actualizarVista();
 };
 
-// --- FUNCIÓN DE WHATSAPP CON LÓGICA DE PLURALES ---
+// ENVÍO A WHATSAPP CON LÓGICA DE PLURALES
 document.getElementById('btn-pagar').onclick = () => {
     if (carrito.length === 0) {
         alert("El carrito está vacío");
@@ -131,15 +135,12 @@ document.getElementById('btn-pagar').onclick = () => {
     carrito.forEach(p => {
         let textoUnidadFinal = p.unidad;
 
-        // Lógica para unidades vs unidad
         if (p.unidad === 'un') {
             textoUnidadFinal = (p.cantidad === 1) ? "unidad" : "unidades";
         } 
-        // Lógica para sacos vs saco
         else if (p.unidad === 'saco') {
             textoUnidadFinal = (p.cantidad === 1) ? "saco" : "sacos";
         }
-        // El KG se mantiene igual siempre
 
         mensaje += `• ${p.nombre}: ${p.cantidad} ${textoUnidadFinal} - $${p.subtotal.toLocaleString('es-CL')}\n`;
     });
@@ -152,9 +153,11 @@ document.getElementById('btn-pagar').onclick = () => {
     window.open(url, '_blank');
 };
 
+// BOTONES GENERALES DEL CARRITO
 document.getElementById('btn-vaciar').onclick = () => { carrito = []; actualizarVista(); };
 document.getElementById('abrir-carrito').onclick = () => document.getElementById('carrito-lateral').classList.remove('oculto');
 document.getElementById('btn-cerrar-carrito').onclick = () => document.getElementById('carrito-lateral').classList.add('oculto');
 
+// INICIO DE LA APP
 dibujarProductos();
 actualizarVista();
