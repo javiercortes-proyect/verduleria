@@ -305,3 +305,40 @@ footer {
 .btn-menos:hover {
     background: #e0e0e0;
 }
+/* Estilos para el selector de unidad (Kilo/Saco) */
+.selector-unidad {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.radio-unidad {
+    display: none;
+}
+
+.label-unidad {
+    padding: 5px 12px;
+    border: 2px solid var(--verde-primario);
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--verde-primario);
+    transition: all 0.3s;
+}
+
+.radio-unidad:checked + .label-unidad {
+    background-color: var(--verde-primario);
+    color: white;
+}
+
+/* Ajuste para que el input de cantidad se vea bien con el texto */
+.control-cantidad-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: white;
+}
