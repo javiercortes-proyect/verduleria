@@ -40,6 +40,7 @@ function dibujarProductos() {
         let paso = p.unidad === 'kg' ? 0.5 : 1;
         let selectorEspecial = "";
 
+        // CASO PAPA
         if (p.unidad === 'especial') {
             selectorEspecial = `
                 <div class="selector-unidad">
@@ -50,7 +51,9 @@ function dibujarProductos() {
                     <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad">
                     <label for="saco-${p.id}" class="label-unidad">Saco $15mil</label>
                 </div>`;
-        } else if (p.unidad === 'ajo-especial') {
+        } 
+        // CASO AJO
+        else if (p.unidad === 'ajo-especial') {
             selectorEspecial = `
                 <div class="selector-unidad">
                     <input type="radio" name="tipo-${p.id}" id="u-${p.id}" value="u" class="radio-unidad" checked>
@@ -60,21 +63,25 @@ function dibujarProductos() {
                     <input type="radio" name="tipo-${p.id}" id="p5-${p.id}" value="p5" class="radio-unidad">
                     <label for="p5-${p.id}" class="label-unidad">5x$1000</label>
                 </div>`;
-        } else if (p.unidad === 'promo-3x') {
+        } 
+        // CASO ZAPALLO IT / CHOCLO (3x1000)
+        else if (p.unidad === 'promo-3x') {
             selectorEspecial = `
                 <div class="selector-unidad">
-                    <input type="radio" name="tipo-${p.id}" id="u-${p.id}" value="u" class="radio-unidad" checked>
-                    <label for="u-${p.id}" class="label-unidad">1 x $${p.precio}</label>
+                    <input type="radio" name="tipo-${p.id}" id="u3-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u3-${p.id}" class="label-unidad">1 x $${p.precio}</label>
                     <input type="radio" name="tipo-${p.id}" id="p3-${p.id}" value="p3" class="radio-unidad">
                     <label for="p3-${p.id}" class="label-unidad">3 x $1000</label>
                 </div>`;
-        } else if (p.unidad === 'promo-2x') {
+        } 
+        // CASO PEPINO (2x1000)
+        else if (p.unidad === 'promo-2x') {
             selectorEspecial = `
                 <div class="selector-unidad">
-                    <input type="radio" name="tipo-${p.id}" id="u-${p.id}" value="u" class="radio-unidad" checked>
-                    <label for="u-${p.id}" class="label-unidad">1 x $${p.precio}</label>
-                    <input type="radio" name="tipo-${p.id}" id="p2-${p.id}" value="p2" class="radio-unidad">
-                    <label for="p2-${p.id}" class="label-unidad">2 x $1000</label>
+                    <input type="radio" name="tipo-${p.id}" id="u2-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u2-${p.id}" class="label-unidad">1 x $${p.precio}</label>
+                    <input type="radio" name="tipo-${p.id}" id="p2pep-${p.id}" value="p2" class="radio-unidad">
+                    <label for="p2pep-${p.id}" class="label-unidad">2 x $1000</label>
                 </div>`;
         }
 
@@ -110,13 +117,14 @@ function actualizarVista() {
     const lista = document.getElementById('lista-carrito');
     const totalMsg = document.getElementById('carrito-total-precio');
     const contador = document.getElementById('contador-carrito');
+    if(!lista) return;
 
     lista.innerHTML = carrito.map((p, i) => `
         <div class="item-carrito">
             <strong>${p.nombre}</strong>
             <div class="controles-item-carrito">
                 <button class="btn-menos" onclick="borrarUno(${i})">-</button>
-                <small>${p.cantidad} ${p.unidad} x $${p.precio.toLocaleString('es-CL')}</small>
+                <small>${p.cantidad} ${p.unidadTexto} x $${p.precioUnitario.toLocaleString('es-CL')}</small>
             </div>
             <span>$${p.subtotal.toLocaleString('es-CL')}</span>
             <button class="btn-eliminar-item" onclick="eliminarTotalmente(${i})">🗑️</button>
@@ -133,64 +141,57 @@ window.agregar = function(id) {
     let cant = parseFloat(document.getElementById(`qty-${id}`).value);
     let nombreFinal = p.nombre;
     let precioFinal = p.precio;
-    let unidadFinal = p.unidad;
+    let unidadTxt = p.unidad === 'kg' ? 'kg' : 'un';
 
+    // LOGICA ESPECIAL PAPA
     if (p.unidad === 'especial') {
         if (document.getElementById(`saco-${id}`).checked) {
-            nombreFinal = "Papa (Saco 25kg)";
-            precioFinal = p.precioSacoCompleto; 
-            unidadFinal = "saco";
+            nombreFinal = "Papa (Saco 25kg)"; precioFinal = p.precioSacoCompleto; unidadTxt = "saco";
         } else if (document.getElementById(`promo-${id}`).checked) {
-            nombreFinal = "Papa (Promo 5kg)";
-            precioFinal = p.precioSaco; 
-            unidadFinal = "promo";
+            nombreFinal = "Papa (Promo 5kg)"; precioFinal = p.precioSaco; unidadTxt = "promo";
         } else {
-            nombreFinal = "Papa (Kilo)";
-            precioFinal = p.precio;
-            unidadFinal = "kg";
+            nombreFinal = "Papa (Kilo)"; precioFinal = p.precio; unidadTxt = "kg";
         }
-    } else if (p.unidad === 'ajo-especial') {
+    } 
+    // LOGICA ESPECIAL AJO
+    else if (p.unidad === 'ajo-especial') {
         if (document.getElementById(`p2-${id}`).checked) {
-            nombreFinal = "Ajo (Promo 2x500)";
-            precioFinal = p.precioSaco; 
-            unidadFinal = "promo";
+            nombreFinal = "Ajo (Promo 2x500)"; precioFinal = p.precioSaco; unidadTxt = "promo";
         } else if (document.getElementById(`p5-${id}`).checked) {
-            nombreFinal = "Ajo (Promo 5x1000)";
-            precioFinal = p.precioPromo; 
-            unidadFinal = "promo";
+            nombreFinal = "Ajo (Promo 5x1000)"; precioFinal = p.precioPromo; unidadTxt = "promo";
         } else {
-            nombreFinal = "Ajo (Unidad)";
-            precioFinal = p.precio; 
-            unidadFinal = "un";
+            nombreFinal = "Ajo (Unidad)"; precioFinal = p.precio; unidadTxt = "un";
         }
-    } else if (p.unidad === 'promo-3x') {
+    }
+    // LOGICA 3x1000
+    else if (p.unidad === 'promo-3x') {
         if (document.getElementById(`p3-${id}`).checked) {
-            nombreFinal = p.nombre + " (Promo 3x1000)";
-            precioFinal = 1000;
-            unidadFinal = "promo";
+            nombreFinal = p.nombre + " (Promo 3x1000)"; precioFinal = 1000; unidadTxt = "promo";
         } else {
-            nombreFinal = p.nombre + " (Unidad)";
-            precioFinal = p.precio;
-            unidadFinal = "un";
+            nombreFinal = p.nombre + " (Unidad)"; precioFinal = p.precio; unidadTxt = "un";
         }
-    } else if (p.unidad === 'promo-2x') {
-        if (document.getElementById(`p2-${id}`).checked) {
-            nombreFinal = p.nombre + " (Promo 2x1000)";
-            precioFinal = 1000;
-            unidadFinal = "promo";
+    }
+    // LOGICA 2x1000
+    else if (p.unidad === 'promo-2x') {
+        if (document.getElementById(`p2pep-${id}`).checked) {
+            nombreFinal = p.nombre + " (Promo 2x1000)"; precioFinal = 1000; unidadTxt = "promo";
         } else {
-            nombreFinal = p.nombre + " (Unidad)";
-            precioFinal = p.precio;
-            unidadFinal = "un";
+            nombreFinal = p.nombre + " (Unidad)"; precioFinal = p.precio; unidadTxt = "un";
         }
     }
 
     const itemExistente = carrito.find(item => item.nombre === nombreFinal);
     if (itemExistente) {
         itemExistente.cantidad += cant;
-        itemExistente.subtotal = itemExistente.cantidad * itemExistente.precio;
+        itemExistente.subtotal = itemExistente.cantidad * itemExistente.precioUnitario;
     } else {
-        carrito.push({ id: p.id, nombre: nombreFinal, cantidad: cant, precio: precioFinal, subtotal: precioFinal * cant, unidad: unidadFinal });
+        carrito.push({ 
+            nombre: nombreFinal, 
+            cantidad: cant, 
+            precioUnitario: precioFinal, 
+            subtotal: precioFinal * cant, 
+            unidadTexto: unidadTxt 
+        });
     }
     actualizarVista();
     document.getElementById(`qty-${id}`).value = 1;
@@ -198,10 +199,10 @@ window.agregar = function(id) {
 
 window.borrarUno = function(index) {
     const item = carrito[index];
-    const paso = (item.unidad === 'kg' || item.nombre.includes("Kilo")) ? 0.5 : 1;
+    const paso = (item.unidadTexto === 'kg' || item.nombre.includes("Kilo")) ? 0.5 : 1;
     if (item.cantidad > paso) {
         item.cantidad -= paso;
-        item.subtotal = item.cantidad * item.precio;
+        item.subtotal = item.cantidad * item.precioUnitario;
     } else {
         carrito.splice(index, 1);
     }
@@ -214,17 +215,11 @@ window.eliminarTotalmente = function(index) {
 };
 
 document.getElementById('btn-pagar').onclick = () => {
-    if (carrito.length === 0) {
-        alert("El carrito está vacío");
-        return;
-    }
+    if (carrito.length === 0) { alert("El carrito está vacío"); return; }
     const telefono = "56963536651";
     let mensaje = "¡Hola Katherine! Me gustaría hacer un pedido:\n\n";
     carrito.forEach(p => {
-        let txtU = p.unidad === 'kg' ? 'Kg' : (p.cantidad === 1 ? 'unidad' : 'unidades');
-        if(p.unidad === 'promo') txtU = 'promo(s)';
-        if(p.unidad === 'saco') txtU = p.cantidad === 1 ? 'saco' : 'sacos';
-        mensaje += `• ${p.nombre}: ${p.cantidad} ${txtU} - $${p.subtotal.toLocaleString('es-CL')}\n`;
+        mensaje += `• ${p.nombre}: ${p.cantidad} ${p.unidadTexto} - $${p.subtotal.toLocaleString('es-CL')}\n`;
     });
     const total = carrito.reduce((t, p) => t + p.subtotal, 0);
     mensaje += `\n*Total a pagar: $${total.toLocaleString('es-CL')}*`;
