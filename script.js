@@ -85,31 +85,35 @@ function actualizarVista() {
     if (totalMsg) totalMsg.innerText = `$${suma.toLocaleString('es-CL')}`;
     if (contador) contador.innerText = carrito.length;
 
-    // --- REORGANIZACIÓN DE SECCIONES ---
+    // --- REORGANIZACIÓN VISUAL ---
     
+    // 1. Título principal
+    const h1 = document.querySelector('h1');
+    if (h1) h1.innerText = "Frutas y Verduras Frescas";
+
+    // 2. Unir el bloque verde de arriba con el de abajo
     const sectionProductos = document.getElementById('productos') || document.querySelector('.productos');
-    const sectionContacto = document.getElementById('contacto') || document.querySelector('section#contacto');
-    const mainContainer = document.querySelector('main') || document.body;
-
-    // 1. Unir el verde: Asegurar que la sección de productos sea verde y ocupe espacio
+    const hero = document.querySelector('.hero');
     if (sectionProductos) {
-        sectionProductos.style.cssText = "background-color: #1b5e20; color: white; padding: 60px 0; min-height: 500px;";
-        const h2 = sectionProductos.querySelector('h2');
-        if (h2) h2.innerText = "Nuestras Verduras";
+        // Hacemos que la sección de productos se pegue al hero
+        sectionProductos.style.cssText = "background-color: #1b5e20; color: white; padding: 40px 0; margin-top: -20px;";
+        if (hero) hero.style.marginBottom = "0";
     }
 
-    // 2. Mover lo blanco (Contacto) al final (abajo del todo)
-    if (sectionContacto && sectionProductos) {
-        sectionProductos.after(sectionContacto); // Coloca contacto justo después de productos
-        sectionContacto.style.cssText = "text-align: center; display: flex; flex-direction: column; align-items: center; background-color: white; color: black; padding: 40px 0; width: 100%;";
-    }
-
-    // 3. Ajustar el Footer para que siga al contacto
+    // 3. MOVER EL CONTACTO AL FINAL (Abajo del todo)
+    const sectionContacto = document.getElementById('contacto') || document.querySelector('section#contacto');
     const footer = document.querySelector('footer');
+    if (sectionContacto && footer) {
+        // Movemos la sección de contacto para que quede justo antes del footer
+        footer.before(sectionContacto);
+        sectionContacto.style.cssText = "text-align: center; display: flex; flex-direction: column; align-items: center; background-color: white; color: black; padding: 50px 0; width: 100%; border-top: 5px solid #1b5e20;";
+    }
+
+    // 4. Limpiar el footer
     if (footer) {
-        footer.style.cssText = "background-color: white; color: black; border-top: 1px solid #eee; padding: 20px 0;";
-        const pFooter = footer.querySelector('p');
-        if (pFooter) pFooter.innerText = "© 2026 La Verdurería";
+        footer.style.cssText = "background-color: white; color: black; padding: 20px 0; border-top: 1px solid #eee;";
+        const p = footer.querySelector('p');
+        if (p) p.innerText = "© 2026 La Verdurería";
     }
 }
 
