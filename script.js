@@ -30,16 +30,18 @@ function dibujarProductos() {
     }).join('');
 }
 
+// RESTAURADO EL HTML BONITO DENTRO DE LA VISTA DEL CARRITO
 function actualizarVista() {
     const lista = document.getElementById('lista-carrito');
     const totalMsg = document.getElementById('carrito-total-precio');
     const contador = document.getElementById('contador-carrito');
 
     lista.innerHTML = carrito.map((p, i) => `
-        <div style="border-bottom: 1px solid #eee; padding: 10px;">
-            <strong>${p.nombre}</strong><br>
-            ${p.cantidad} x $${p.precio} = $${p.subtotal.toLocaleString('es-CL')}
-            <button onclick="borrar(${i})" style="color: red; border: none; background: none; cursor: pointer; margin-left: 10px;">🗑️</button>
+        <div class="item-carrito">
+            <strong>${p.nombre}</strong>
+            <small>${p.cantidad} x $${p.precio.toLocaleString('es-CL')}</small>
+            <span>$${p.subtotal.toLocaleString('es-CL')}</span>
+            <button class="btn-eliminar-item" onclick="borrar(${i})">🗑️</button>
         </div>
     `).join('');
 
@@ -51,6 +53,7 @@ function actualizarVista() {
 window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
     const cant = parseFloat(document.getElementById(`qty-${id}`).value);
+    
     carrito.push({
         nombre: p.nombre,
         cantidad: cant,
