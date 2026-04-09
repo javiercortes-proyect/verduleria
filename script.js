@@ -27,7 +27,7 @@ const productos = [
     { id: 26, nombre: "Perejil", precio: 600, img: "imagenes/perejil.jpg", unidad: 'un' },
     { id: 27, nombre: "Pimentón Rojo", precio: 800, img: "imagenes/pimenton-rojo.jpg", unidad: 'un' },
     { id: 28, nombre: "Pimentón Verde", precio: 700, img: "imagenes/pimenton-verde.jpg", unidad: 'un' },
-    { id: 29, nombre: "Morrones", precio: 500, img: "imagenes/pimenton.jpg", unidad: 'un' }
+    { id: 29, nombre: "Rabanos", precio: 500, img: "imagenes/Rabanos.jpg", unidad: 'un' }
 ];
 
 let carrito = [];
