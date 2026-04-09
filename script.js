@@ -7,10 +7,10 @@ const productos = [
     { id: 6, nombre: "Zapallo", precio: 1000, img: "imagenes/zapallo.jpg", unidad: 'kg' },
     { id: 7, nombre: "Z. Italiano (3x1000)", precio: 333, img: "imagenes/zapallo-italiano.jpg", unidad: 'un' },
     { id: 8, nombre: "Pepinos", precio: 500, img: "imagenes/pepino.jpg", unidad: 'un' },
-    { id: 9, nombre: "Morrones", precio: 500, img: "imagenes/pimenton.jpg", unidad: 'un' },
+    { id: 9, nombre: "Ajo", precio: 300, precioSaco: 500, precioPromo: 1000, img: "imagenes/ajo.jpg", unidad: 'ajo-especial' },
     { id: 10, nombre: "Cebolla", precio: 800, img: "imagenes/cebolla.jpg", unidad: 'kg' },
     { id: 11, nombre: "Zanahoria", precio: 800, img: "imagenes/zanahoria.jpg", unidad: 'kg' },
-    { id: 12, nombre: "Papa", precio: 800, precioSaco: 3500, img: "imagenes/papa.jpg", unidad: 'especial' }, // El 'saco' aquí actúa como la promo 5kg
+    { id: 12, nombre: "Papa", precio: 800, precioSaco: 3500, img: "imagenes/papa.jpg", unidad: 'especial' },
     { id: 13, nombre: "Lechuga Escarola", precio: 1000, img: "imagenes/escarola.jpg", unidad: 'un' },
     { id: 14, nombre: "Lechuga Chilena", precio: 800, img: "imagenes/chilena.jpg", unidad: 'un' },
     { id: 15, nombre: "Lechuga Marina", precio: 600, img: "imagenes/marina.jpg", unidad: 'un' },
@@ -26,30 +26,38 @@ const productos = [
     { id: 25, nombre: "Limón", precio: 1500, img: "imagenes/limon.jpg", unidad: 'kg' },
     { id: 26, nombre: "Perejil", precio: 600, img: "imagenes/perejil.jpg", unidad: 'un' },
     { id: 27, nombre: "Pimentón Rojo", precio: 800, img: "imagenes/pimenton-rojo.jpg", unidad: 'un' },
-    { id: 28, nombre: "Pimentón Verde", precio: 700, img: "imagenes/pimenton-verde.jpg", unidad: 'un' }
-
+    { id: 28, nombre: "Pimentón Verde", precio: 700, img: "imagenes/pimenton-verde.jpg", unidad: 'un' },
+    { id: 29, nombre: "Morrones", precio: 500, img: "imagenes/pimenton.jpg", unidad: 'un' }
 ];
 
 let carrito = [];
 
-// --- DIBUJAR PRODUCTOS ---
 function dibujarProductos() {
     const contenedor = document.getElementById('contenedor-productos');
     if (!contenedor) return;
     
     contenedor.innerHTML = productos.map(p => {
         let paso = p.unidad === 'kg' ? 0.5 : 1;
-        
         let selectorEspecial = "";
+
         if (p.unidad === 'especial') {
             selectorEspecial = `
                 <div class="selector-unidad">
-                    <input type="radio" name="tipo-${p.id}" id="kilo-${p.id}" value="kg" class="radio-unidad" checked onclick="document.getElementById('unidad-${p.id}').innerText='Kg'">
-                    <label for="kilo-${p.id}" class="label-unidad">Kilo</label>
-                    <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad" onclick="document.getElementById('unidad-${p.id}').innerText='Saco'">
-                    <label for="saco-${p.id}" class="label-unidad">Saco</label>
+                    <input type="radio" name="tipo-${p.id}" id="kilo-${p.id}" value="kg" class="radio-unidad" checked>
+                    <label for="kilo-${p.id}" class="label-unidad">Kilo $800</label>
+                    <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad">
+                    <label for="saco-${p.id}" class="label-unidad">5kg x $3500</label>
                 </div>`;
-            // Se eliminó la línea unidadTexto = 'Kg'; aquí
+        } else if (p.unidad === 'ajo-especial') {
+            selectorEspecial = `
+                <div class="selector-unidad">
+                    <input type="radio" name="tipo-${p.id}" id="u-${p.id}" value="u" class="radio-unidad" checked>
+                    <label for="u-${p.id}" class="label-unidad">1x$300</label>
+                    <input type="radio" name="tipo-${p.id}" id="p2-${p.id}" value="p2" class="radio-unidad">
+                    <label for="p2-${p.id}" class="label-unidad">2x$500</label>
+                    <input type="radio" name="tipo-${p.id}" id="p5-${p.id}" value="p5" class="radio-unidad">
+                    <label for="p5-${p.id}" class="label-unidad">5x$1000</label>
+                </div>`;
         }
 
         return `
@@ -68,7 +76,6 @@ function dibujarProductos() {
     }).join('');
 }
 
-// --- BOTONES DE CANTIDAD EN TARJETAS ---
 window.subirQty = function(id, paso) {
     const input = document.getElementById(`qty-${id}`);
     input.value = (parseFloat(input.value) + paso).toFixed(1).replace('.0', '');
@@ -81,7 +88,6 @@ window.bajarQty = function(id, paso) {
     }
 };
 
-// --- ACTUALIZAR VISTA DEL CARRITO ---
 function actualizarVista() {
     const lista = document.getElementById('lista-carrito');
     const totalMsg = document.getElementById('carrito-total-precio');
@@ -104,19 +110,37 @@ function actualizarVista() {
     contador.innerText = carrito.length; 
 }
 
-// --- AGREGAR AL CARRITO ---
 window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
     let cant = parseFloat(document.getElementById(`qty-${id}`).value);
     let nombreFinal = p.nombre;
     let precioFinal = p.precio;
-    let unidadFinal = p.unidad === 'especial' ? (document.getElementById(`saco-${id}`).checked ? 'saco' : 'kg') : p.unidad;
+    let unidadFinal = p.unidad;
 
-    if (p.unidad === 'especial' && unidadFinal === 'saco') {
-        nombreFinal = "Papa (Saco)";
-        precioFinal = p.precioSaco;
-    } else if (p.unidad === 'especial') {
-        nombreFinal = "Papa (Kilo)";
+    if (p.unidad === 'especial') {
+        if (document.getElementById(`saco-${id}`).checked) {
+            nombreFinal = "Papa (Promo 5kg)";
+            precioFinal = p.precioSaco;
+            unidadFinal = "promo";
+        } else {
+            nombreFinal = "Papa (Kilo)";
+            precioFinal = p.precio;
+            unidadFinal = "kg";
+        }
+    } else if (p.unidad === 'ajo-especial') {
+        if (document.getElementById(`p2-${id}`).checked) {
+            nombreFinal = "Ajo (Promo 2x500)";
+            precioFinal = p.precioSaco; // 500
+            unidadFinal = "promo";
+        } else if (document.getElementById(`p5-${id}`).checked) {
+            nombreFinal = "Ajo (Promo 5x1000)";
+            precioFinal = p.precioPromo; // 1000
+            unidadFinal = "promo";
+        } else {
+            nombreFinal = "Ajo (Unidad)";
+            precioFinal = p.precio; // 300
+            unidadFinal = "un";
+        }
     }
 
     const itemExistente = carrito.find(item => item.nombre === nombreFinal);
@@ -130,11 +154,9 @@ window.agregar = function(id) {
     document.getElementById(`qty-${id}`).value = 1;
 };
 
-// --- BORRAR UNO POR UNO ---
 window.borrarUno = function(index) {
     const item = carrito[index];
-    const paso = (item.unidad === 'kg' || (item.nombre.includes("Kilo"))) ? 0.5 : 1;
-    
+    const paso = (item.unidad === 'kg' || item.nombre.includes("Kilo")) ? 0.5 : 1;
     if (item.cantidad > paso) {
         item.cantidad -= paso;
         item.subtotal = item.cantidad * item.precio;
@@ -144,53 +166,31 @@ window.borrarUno = function(index) {
     actualizarVista();
 };
 
-// --- ELIMINAR PRODUCTO COMPLETO ---
 window.eliminarTotalmente = function(index) {
     carrito.splice(index, 1);
     actualizarVista();
 };
 
-// --- ENVÍO A WHATSAPP ---
 document.getElementById('btn-pagar').onclick = () => {
     if (carrito.length === 0) {
         alert("El carrito está vacío");
         return;
     }
-
     const telefono = "56963536651";
     let mensaje = "¡Hola Katherine! Me gustaría hacer un pedido:\n\n";
-    
     carrito.forEach(p => {
-        let textoUnidadFinal = p.unidad;
-
-        if (p.unidad === 'un') {
-            textoUnidadFinal = (p.cantidad === 1) ? "unidad" : "unidades";
-        } else if (p.unidad === 'saco') {
-            textoUnidadFinal = (p.cantidad === 1) ? "saco" : "sacos";
-        } else if (p.unidad === 'kg') {
-            textoUnidadFinal = "Kg";
-        }
-
-        mensaje += `• ${p.nombre}: ${p.cantidad} ${textoUnidadFinal} - $${p.subtotal.toLocaleString('es-CL')}\n`;
+        let txtU = p.unidad === 'kg' ? 'Kg' : (p.cantidad === 1 ? 'unidad' : 'unidades');
+        if(p.unidad === 'promo') txtU = 'promo(s)';
+        mensaje += `• ${p.nombre}: ${p.cantidad} ${txtU} - $${p.subtotal.toLocaleString('es-CL')}\n`;
     });
-
     const total = carrito.reduce((t, p) => t + p.subtotal, 0);
     mensaje += `\n*Total a pagar: $${total.toLocaleString('es-CL')}*`;
-
     window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
 };
 
-// --- CONTROLES CARRITO LATERAL ---
-document.getElementById('btn-vaciar').onclick = () => { 
-    if(confirm("¿Estás seguro de vaciar el carrito?")) {
-        carrito = []; 
-        actualizarVista(); 
-    }
-};
-
+document.getElementById('btn-vaciar').onclick = () => { if(confirm("¿Vaciar carrito?")) { carrito = []; actualizarVista(); } };
 document.getElementById('abrir-carrito').onclick = () => document.getElementById('carrito-lateral').classList.remove('oculto');
 document.getElementById('btn-cerrar-carrito').onclick = () => document.getElementById('carrito-lateral').classList.add('oculto');
 
-// --- INICIO ---
 dibujarProductos();
 actualizarVista();
