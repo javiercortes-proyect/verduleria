@@ -30,7 +30,6 @@ function dibujarProductos() {
     }).join('');
 }
 
-// RESTAURADO EL HTML BONITO DENTRO DE LA VISTA DEL CARRITO
 function actualizarVista() {
     const lista = document.getElementById('lista-carrito');
     const totalMsg = document.getElementById('carrito-total-precio');
@@ -54,17 +53,31 @@ window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
     const cant = parseFloat(document.getElementById(`qty-${id}`).value);
     
-    carrito.push({
-        nombre: p.nombre,
-        cantidad: cant,
-        precio: p.precio,
-        subtotal: p.precio * cant
-    });
+    // BUSCAR SI YA EXISTE PARA SUMAR
+    const itemExistente = carrito.find(item => item.id === id);
+
+    if (itemExistente) {
+        itemExistente.cantidad += cant;
+        itemExistente.subtotal = itemExistente.cantidad * itemExistente.precio;
+    } else {
+        carrito.push({
+            id: p.id,
+            nombre: p.nombre,
+            cantidad: cant,
+            precio: p.precio,
+            subtotal: p.precio * cant
+        });
+    }
     actualizarVista();
 };
 
 window.borrar = function(index) {
     carrito.splice(index, 1);
+    actualizarVista();
+};
+
+document.getElementById('btn-vaciar').onclick = () => {
+    carrito = [];
     actualizarVista();
 };
 
