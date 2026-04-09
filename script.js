@@ -30,7 +30,7 @@ function dibujarProductos() {
                 <p class="precio">$${p.precio.toLocaleString('es-CL')}</p>
                 ${selectorEspecial}
                 <div class="wrapper-cantidad">
-                    <button class="btn-qty" onclick="bajarQty(${p.id}, ${paso})">−</button>
+                    <button class="btn-qty" onclick="bajarQty(${p.id}, ${paso})">-</button>
                     <input type="number" class="input-cantidad-bonito" id="qty-${p.id}" value="1" step="${paso}" readonly>
                     <button class="btn-qty" onclick="subirQty(${p.id}, ${paso})">+</button>
                 </div>
@@ -39,7 +39,11 @@ function dibujarProductos() {
     }).join('');
 }
 
-window.subirQty = (id, paso) => { document.getElementById(`qty-${id}`).value = parseFloat(document.getElementById(`qty-${id}`).value) + paso; };
+window.subirQty = (id, paso) => { 
+    let input = document.getElementById(`qty-${id}`);
+    input.value = parseFloat(input.value) + paso; 
+};
+
 window.bajarQty = (id, paso) => { 
     let input = document.getElementById(`qty-${id}`);
     if (parseFloat(input.value) > paso) input.value = parseFloat(input.value) - paso;
@@ -52,15 +56,17 @@ function actualizarVista() {
 
     lista.innerHTML = carrito.map((p, i) => `
         <div class="item-carrito">
-            <strong>${p.nombre}</strong>
-            <small>${p.cantidad} ${p.unidad} x $${p.precio.toLocaleString('es-CL')}</small>
+            <div>
+                <strong>${p.nombre}</strong><br>
+                <small>${p.cantidad} ${p.unidad} x $${p.precio.toLocaleString('es-CL')}</small>
+            </div>
             <span>$${p.subtotal.toLocaleString('es-CL')}</span>
-            <button class="btn-eliminar-item" onclick="borrarUno(${i})">🗑️</button>
+            <button onclick="borrarUno(${i})" style="background:none; border:none; cursor:pointer; color:red; margin-left:10px;">🗑️</button>
         </div>`).join('');
 
     const sumaTotal = carrito.reduce((t, p) => t + p.subtotal, 0);
     totalMsg.innerText = `$${sumaTotal.toLocaleString('es-CL')}`;
-    contador.innerText = carrito.reduce((total, p) => total + p.cantidad, 0); 
+    contador.innerText = carrito.length; 
 }
 
 window.agregar = function(id) {
