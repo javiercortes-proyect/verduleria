@@ -23,7 +23,11 @@ const productos = [
     { id: 22, nombre: "Choclo Americano (3x1000)", precio: 333, img: "imagenes/choclo.jpg", unidad: 'un' },
     { id: 23, nombre: "Bruselas (Malla)", precio: 1000, img: "imagenes/bruselas.jpg", unidad: 'un' },
     { id: 24, nombre: "Palta", precio: 3000, img: "imagenes/palta.jpg", unidad: 'kg' },
-    { id: 25, nombre: "Limón", precio: 1500, img: "imagenes/limon.jpg", unidad: 'kg' }
+    { id: 25, nombre: "Limón", precio: 1500, img: "imagenes/limon.jpg", unidad: 'kg' },
+    { id: 26, nombre: "Perejil", precio: 600, img: "imagenes/perejil.jpg", unidad: 'un' },
+    { id: 27, nombre: "Pimentón Rojo", precio: 800, img: "imagenes/pimenton-rojo.jpg", unidad: 'un' },
+    { id: 28, nombre: "Pimentón Verde", precio: 700, img: "imagenes/pimenton-verde.jpg", unidad: 'un' }
+
 ];
 
 let carrito = [];
