@@ -15,7 +15,6 @@ function dibujarProductos() {
     if (!contenedor) return;
     
     contenedor.innerHTML = productos.map(p => {
-        let unidadTexto = p.unidad === 'kg' ? 'Kg' : 'Un';
         let paso = p.unidad === 'kg' ? 0.5 : 1;
         
         let selectorEspecial = "";
@@ -27,7 +26,7 @@ function dibujarProductos() {
                     <input type="radio" name="tipo-${p.id}" id="saco-${p.id}" value="saco" class="radio-unidad" onclick="document.getElementById('unidad-${p.id}').innerText='Saco'">
                     <label for="saco-${p.id}" class="label-unidad">Saco</label>
                 </div>`;
-            unidadTexto = 'Kg';
+            // Se eliminó la línea unidadTexto = 'Kg'; aquí
         }
 
         return `
@@ -39,7 +38,6 @@ function dibujarProductos() {
                 <div class="wrapper-cantidad">
                     <button class="btn-qty" onclick="bajarQty(${p.id}, ${paso})">−</button>
                     <input type="number" class="input-cantidad-bonito" id="qty-${p.id}" value="1" step="${paso}" readonly>
-                    <span class="texto-unidad" id="unidad-${p.id}">${unidadTexto}</span>
                     <button class="btn-qty" onclick="subirQty(${p.id}, ${paso})">+</button>
                 </div>
                 <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito</button>
@@ -80,8 +78,6 @@ function actualizarVista() {
 
     const sumaTotal = carrito.reduce((t, p) => t + p.subtotal, 0);
     totalMsg.innerText = `$${sumaTotal.toLocaleString('es-CL')}`;
-    
-    // El contador muestra cuántos tipos de productos hay
     contador.innerText = carrito.length; 
 }
 
@@ -109,8 +105,6 @@ window.agregar = function(id) {
     }
     actualizarVista();
     document.getElementById(`qty-${id}`).value = 1;
-    // Resetear texto de unidad si era papa
-    if(p.id === 4) document.getElementById(`unidad-${p.id}`).innerText = 'Kg';
 };
 
 // --- BORRAR UNO POR UNO ---
