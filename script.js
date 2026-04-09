@@ -1,4 +1,3 @@
-// 1. LISTA DE PRODUCTOS (Basada exactamente en tu carpeta de imágenes)
 const productos = [
     { id: 1, nombre: "Berenjena", precio: 1500, img: "imagenes/berenjena.jpg" },
     { id: 2, nombre: "Brócoli", precio: 1800, img: "imagenes/brocoli.jpg" },
@@ -10,32 +9,21 @@ const productos = [
 
 let carrito = [];
 
-// 2. FUNCIÓN PARA DIBUJAR LAS TARJETAS
 function dibujarProductos() {
     const contenedor = document.getElementById('contenedor-productos');
     if (!contenedor) return;
-
     contenedor.innerHTML = productos.map(p => `
         <div class="producto-card">
             <img src="${p.img}" alt="${p.nombre}" class="producto-img">
             <div class="info-producto">
                 <h3>${p.nombre}</h3>
                 <p class="precio">$${p.precio.toLocaleString('es-CL')}</p>
-                <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito 🛒</button>
+                <button class="btn-agregar" onclick="agregar(${p.id})">Agregar al Carrito</button>
             </div>
         </div>
     `).join('');
 }
 
-// 3. CONTROL DEL CARRITO (ABRIR/CERRAR)
-function toggleCarrito() {
-    const carritoLateral = document.getElementById('carrito-lateral');
-    if (carritoLateral) {
-        carritoLateral.classList.toggle('oculto');
-    }
-}
-
-// 4. AGREGAR AL CARRITO
 window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
     if (p) {
@@ -44,7 +32,6 @@ window.agregar = function(id) {
     }
 }
 
-// 5. ACTUALIZAR VISTA DEL CARRITO
 function actualizarVista() {
     const lista = document.getElementById('lista-carrito');
     const totalMsg = document.getElementById('carrito-total-precio');
@@ -53,8 +40,7 @@ function actualizarVista() {
     lista.innerHTML = carrito.map((p, i) => `
         <div class="item-carrito">
             <span>${p.nombre}</span>
-            <span>$${p.precio.toLocaleString('es-CL')} 
-            <button class="btn-borrar" onclick="borrar(${i})">❌</button></span>
+            <span>$${p.precio} <button onclick="borrar(${i})">❌</button></span>
         </div>
     `).join('');
 
@@ -63,35 +49,22 @@ function actualizarVista() {
     contador.innerText = carrito.length;
 }
 
-// 6. BORRAR PRODUCTO
 window.borrar = function(index) {
     carrito.splice(index, 1);
     actualizarVista();
 }
 
-// 7. BOTÓN DE PAGO (WHATSAPP)
 document.getElementById('btn-pagar').addEventListener('click', () => {
-    if (carrito.length === 0) return alert("Tu carrito está vacío");
-
+    if (carrito.length === 0) return alert("Carrito vacío");
     const suma = carrito.reduce((t, p) => t + p.precio, 0);
-    let detalle = carrito.map(p => `- ${p.nombre} ($${p.precio})`).join("%0A");
-    
-    // RECUERDA: Cambia el número por el tuyo real
+    const detalle = carrito.map(p => `- ${p.nombre} ($${p.precio})`).join("%0A");
     const miNumero = "56963536651"; 
-    const mensaje = `Hola Javier! Quiero hacer un pedido:%0A${detalle}%0A%0A*Total: $${suma}*`;
-    
+    const mensaje = `Hola Sra.Kathy! Quiero hacer un pedido:%0A${detalle}%0A%0A*Total: $${suma}*`;
     window.open(`https://wa.me/${miNumero}?text=${mensaje}`, '_blank');
 });
 
-// EVENTOS DE BOTONES
-document.getElementById('abrir-carrito').onclick = toggleCarrito;
-document.getElementById('btn-cerrar-carrito').onclick = toggleCarrito;
-document.getElementById('btn-vaciar').onclick = () => {
-    if (confirm("¿Vaciar todo?")) {
-        carrito = [];
-        actualizarVista();
-    }
-};
+document.getElementById('abrir-carrito').onclick = () => document.getElementById('carrito-lateral').classList.remove('oculto');
+document.getElementById('btn-cerrar-carrito').onclick = () => document.getElementById('carrito-lateral').classList.add('oculto');
+document.getElementById('btn-vaciar').onclick = () => { carrito = []; actualizarVista(); };
 
-// INICIAR
 dibujarProductos();

@@ -1,84 +1,37 @@
-/* --- 1. CONFIGURACIÓN Y VARIABLES --- */
 :root {
-    --verde: #27ae60;
-    --verde-oscuro: #219150;
-    --oscuro: #2c3e50;
+    --verde-primario: #27ae60;
+    --verde-oscuro: #1b5e20;
+    --verde-fondo: #0a2e1a; /* Verde muy oscuro para el fondo */
     --blanco: #ffffff;
-    --gris-fondo: #f4f7f6;
-    --rojo: #e74c3c;
+    --oscuro: #1e272e;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
     scroll-behavior: smooth;
-    background-color: var(--gris-fondo);
+    background-color: #f0f0f0;
 }
 
-/* --- 2. NAVEGACIÓN (HEADER) --- */
+/* HEADER */
 header {
-    background: var(--verde);
+    background: var(--verde-primario);
     color: white;
+    padding: 15px 5%;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 5%;
-}
+nav { display: flex; justify-content: space-between; align-items: center; }
+.nav-links { display: flex; list-style: none; gap: 20px; }
+.nav-links a { color: white; text-decoration: none; font-weight: bold; }
 
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.nav-links a:hover {
-    color: #d1ffd6;
-}
-
-.carrito-icono {
-    cursor: pointer;
-    background: rgba(255,255,255,0.2);
-    padding: 8px 15px;
-    border-radius: 50px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.carrito-icono:hover {
-    background: rgba(255,255,255,0.3);
-}
-
-/* --- 3. SECCIÓN INICIO (HERO) --- */
+/* HERO */
 .hero {
-    height: 60vh;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+    height: 50vh;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                 url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80');
     background-size: cover;
     background-position: center;
@@ -89,203 +42,74 @@ nav {
     text-align: center;
 }
 
-.hero-content h1 { font-size: 3rem; margin: 0; }
-.hero-content p { font-size: 1.2rem; margin: 15px 0 25px; }
-
-.btn-principal {
-    background: var(--verde);
-    color: white;
-    padding: 12px 30px;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.btn-principal:hover {
-    background: var(--verde-oscuro);
-}
-
-/* --- 4. SECCIÓN PRODUCTOS (LA GRILLA) --- */
+/* SECCIÓN PRODUCTOS - FONDO LLAMATIVO */
 #productos {
     padding: 60px 5%;
+    background: linear-gradient(135deg, #1b5e20 0%, #0a2e1a 100%);
+    min-height: 100vh;
 }
 
-.titulo-seccion {
-    text-align: center;
-    margin-bottom: 40px;
-}
+.titulo-seccion { text-align: center; margin-bottom: 40px; color: white; }
 
 .grid-productos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
 }
 
+/* TARJETAS */
 .producto-card {
     background: white;
-    border-radius: 15px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-}
-
-.producto-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-
-/* TRUCO PARA LAS FOTOS: Tamaño fijo e igual para todas */
-.producto-img {
-    width: 100%;
-    height: 220px;
-    object-fit: contain; /* Para que la verdura no se corte ni se estire */
-    background: #fdfdfd;
-    padding: 15px;
-}
-
-.info-producto {
-    padding: 20px;
     text-align: center;
 }
 
-.info-producto h3 { margin: 0 0 10px; color: var(--oscuro); }
+.producto-card:hover { transform: translateY(-10px); }
 
-.precio {
-    color: var(--verde);
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 15px;
+.producto-img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background: #fff;
+    padding: 10px;
 }
+
+.info-producto { padding: 20px; }
+.precio { color: var(--verde-primario); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
 
 .btn-agregar {
-    background: var(--verde);
+    background: var(--verde-primario);
     color: white;
     border: none;
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
-    transition: 0.3s;
+    width: 100%;
 }
 
-.btn-agregar:hover { background: var(--verde-oscuro); }
-
-/* --- 5. CARRITO LATERAL --- */
+/* CARRITO LATERAL */
 #carrito-lateral {
     position: fixed;
     right: 0; top: 0;
-    width: 380px;
-    height: 100vh;
+    width: 350px;
+    height: 100%;
     background: white;
     z-index: 2000;
-    box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
-    transition: 0.4s ease;
 }
 
-.oculto {
-    transform: translateX(100%); /* Lo saca de la pantalla suavemente */
-    display: none !important; /* Mantenemos esto por seguridad con el JS */
-}
+.oculto { display: none !important; }
 
-.carrito-header {
-    padding: 20px;
-    background: #f8f9fa;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-}
+.carrito-header { padding: 20px; background: var(--verde-primario); color: white; display: flex; justify-content: space-between; }
+.carrito-body { flex-grow: 1; padding: 20px; overflow-y: auto; }
+.item-carrito { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
-.btn-cerrar {
-    background: var(--rojo);
-    color: white;
-    border: none;
-    padding: 5px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.carrito-body {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.item-carrito {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #f1f1f1;
-}
-
-.btn-borrar { background: none; border: none; cursor: pointer; font-size: 1.1rem; }
-
-.carrito-footer {
-    padding: 20px;
-    background: #f8f9fa;
-    border-top: 1px solid #eee;
-}
-
-.total-pago {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn-comprar {
-    background: #25d366; /* Color WhatsApp */
-    color: white;
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-.btn-vaciar {
-    background: #95a5a6;
-    color: white;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-/* --- 6. SECCIÓN CONTACTO --- */
-#contacto {
-    padding: 80px 5%;
-    background: var(--oscuro);
-    color: white;
-    text-align: center;
-}
-
-.contacto-container h2 { margin-bottom: 30px; }
-
-.contacto-card {
-    background: rgba(255,255,255,0.05);
-    padding: 30px;
-    border-radius: 15px;
-    display: inline-block;
-    text-align: left;
-    line-height: 2;
-}
-
-/* --- 7. FOOTER --- */
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #ddd;
-    font-size: 0.9rem;
-}
+/* CONTACTO */
+#contacto { padding: 60px 5%; background: var(--oscuro); color: white; text-align: center; }
+.contacto-card { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; display: inline-block; margin-top: 20px; }
