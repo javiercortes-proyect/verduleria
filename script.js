@@ -1,4 +1,7 @@
-// 1. LISTADO DE PRODUCTOS
+// ==========================================
+// SCRIPT COMPLETO - COPIAR Y PEGAR TODO
+// ==========================================
+
 const productos = [
     { id: 1, nombre: "Berenjena", precio: 1500, img: "imagenes/berenjena.jpg", unidad: 'un' },
     { id: 2, nombre: "Brócoli", precio: 1800, img: "imagenes/brocoli.jpg", unidad: 'un' },
@@ -10,7 +13,6 @@ const productos = [
 
 let carrito = [];
 
-// 2. FUNCIÓN PARA DIBUJAR PRODUCTOS EN LA PÁGINA
 function dibujarProductos() {
     const contenedor = document.getElementById('contenedor-productos');
     if (!contenedor) return;
@@ -39,7 +41,6 @@ function dibujarProductos() {
     }).join('');
 }
 
-// 3. AGREGAR AL CARRITO
 window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
     let cantidadInput = parseFloat(document.getElementById(`qty-${id}`)?.value || 1);
@@ -63,92 +64,74 @@ window.agregar = function(id) {
     dibujarProductos();
 }
 
-// 4. ACTUALIZAR VISTA DEL CARRITO Y AJUSTES DE DISEÑO
 function actualizarVista() {
     const lista = document.getElementById('lista-carrito');
     const totalMsg = document.getElementById('carrito-total-precio');
     const contador = document.getElementById('contador-carrito');
 
-    // Renderizar items en el carrito
-    lista.innerHTML = carrito.map((p, i) => {
-        let textoUnidad = p.unidadBase === 'un' ? (p.cantidadElegida === 1 ? 'unidad' : 'unidades') : p.unidadBase;
-        return `<div class="item-carrito">
-            <strong>${p.nombreBase}</strong>
-            <small>${p.cantidadElegida} ${textoUnidad} x $${p.precioUnitario.toLocaleString('es-CL')}</small>
-            <span>$${p.subtotal.toLocaleString('es-CL')}</span>
-            <button class="btn-eliminar-item" onclick="borrar(${i})">🗑️</button>
-        </div>`;
-    }).join('');
+    if (lista) {
+        lista.innerHTML = carrito.map((p, i) => {
+            let textoUnidad = p.unidadBase === 'un' ? (p.cantidadElegida === 1 ? 'unidad' : 'unidades') : p.unidadBase;
+            return `<div class="item-carrito">
+                <strong>${p.nombreBase}</strong>
+                <small>${p.cantidadElegida} ${textoUnidad} x $${p.precioUnitario.toLocaleString('es-CL')}</small>
+                <span>$${p.subtotal.toLocaleString('es-CL')}</span>
+                <button class="btn-eliminar-item" onclick="borrar(${i})">🗑️</button>
+            </div>`;
+        }).join('');
+    }
 
     const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
     if (totalMsg) totalMsg.innerText = `$${suma.toLocaleString('es-CL')}`;
     if (contador) contador.innerText = carrito.length;
 
-    // --- NUEVOS AJUSTES DE DISEÑO ---
+    // --- AJUSTES AUTOMÁTICOS QUE EVITAN CAMBIAR CSS/HTML ---
     
-    // 1. Título principal
-    const heroTitle = document.querySelector('.hero h1');
-    if (heroTitle) heroTitle.innerText = "Frutas y Verduras Frescas";
+    // 1. Título de bienvenida
+    const h1 = document.querySelector('h1');
+    if (h1) h1.innerText = "Frutas y Verduras Frescas";
 
-    // 2. Título de sección "Katherine Campos"
-    const sectionTitle = document.querySelector('section#productos h2, .titulo-seccion h2');
-    if (sectionTitle) {
-        sectionTitle.innerText = "Katherine Campos";
-        sectionTitle.style.color = "white";
-        sectionTitle.style.textAlign = "center";
-    }
+    // 2. Eliminar "Nuestras Verduras" y el bloque verde sobrante
+    const seccionSobrante = document.getElementById('productos') || document.querySelector('.productos');
+    if (seccionSobrante) seccionSobrante.remove();
 
-    // 3. Eliminar texto sobrante bajo el título
-    const extraSubtitle = document.querySelector('section#productos p');
-    if (extraSubtitle && extraSubtitle.innerText.includes("Selecciona lo que necesites")) {
-        extraSubtitle.remove();
-    }
-
-    // 4. Centrar Contacto Directo
-    const contacto = document.querySelector('section#contacto') || document.querySelector('.contacto-directo');
+    // 3. Centrar Contacto Directo y poner fondo blanco
+    const contacto = document.getElementById('contacto') || document.querySelector('section#contacto');
     if (contacto) {
-        contacto.style.textAlign = "center";
-        contacto.style.display = "flex";
-        contacto.style.flexDirection = "column";
-        contacto.style.alignItems = "center";
+        contacto.style.cssText = "text-align: center; display: flex; flex-direction: column; align-items: center; background-color: white; color: black; padding: 40px 0;";
     }
 
-    // 5. Limpiar Pie de página
-    const footerP = document.querySelector('footer p');
-    if (footerP) {
-        footerP.innerText = "© 2026 La Verdurería";
+    // 4. Pie de página limpio
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.backgroundColor = "white";
+        footer.style.color = "black";
+        footer.style.borderTop = "1px solid #eee";
+        const p = footer.querySelector('p');
+        if (p) p.innerText = "© 2026 La Verdurería";
     }
 }
 
-// 5. BORRAR UNO POR UNO
 window.borrar = function(index) {
     const producto = carrito[index];
-    
     if (producto.cantidadElegida > 1) {
-        // Restar 1 unidad o 1 kilo
         if (producto.unidadBase === 'un' || producto.unidadBase === 'saco') {
             producto.cantidadElegida -= 1;
         } else {
             producto.cantidadElegida = Math.max(0, producto.cantidadElegida - 1);
         }
-        
-        if (producto.cantidadElegida === 0) {
-            carrito.splice(index, 1);
-        } else {
-            producto.subtotal = Math.round(producto.cantidadElegida * producto.precioUnitario);
-        }
+        if (producto.cantidadElegida === 0) { carrito.splice(index, 1); }
+        else { producto.subtotal = Math.round(producto.cantidadElegida * producto.precioUnitario); }
     } else {
         carrito.splice(index, 1);
     }
-    
     actualizarVista();
     dibujarProductos();
 }
 
-// 6. EVENTOS DE BOTONES
-document.getElementById('btn-pagar').addEventListener('click', () => {
+document.getElementById('btn-pagar').onclick = () => {
     if (carrito.length === 0) return alert("Su carrito se encuentra vacío.");
-    if (confirm("¿Ha verificado su pedido y desea enviarlo por WhatsApp?")) {
+    if (confirm("¿Desea enviar su pedido por WhatsApp?")) {
         const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
         const detalle = carrito.map(p => {
             let etiqueta = p.unidadBase === 'un' ? (p.cantidadElegida === 1 ? 'unidad' : 'unidades') : p.unidadBase;
@@ -156,12 +139,12 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
         }).join("%0A");
         window.open(`https://wa.me/56963536651?text=Hola Sra. Kathy! Quisiera este pedido:%0A%0A${detalle}%0A%0A*Total: $${suma.toLocaleString('es-CL')}*`, '_blank');
     }
-});
+};
 
 document.getElementById('abrir-carrito').onclick = () => document.getElementById('carrito-lateral').classList.remove('oculto');
 document.getElementById('btn-cerrar-carrito').onclick = () => document.getElementById('carrito-lateral').classList.add('oculto');
 document.getElementById('btn-vaciar').onclick = () => { if(confirm("¿Vaciar todo el carrito?")) { carrito = []; actualizarVista(); dibujarProductos(); } };
 
-// 7. INICIO
+// INICIO
 dibujarProductos();
-actualizarVista(); // Para aplicar los cambios de diseño al cargar
+actualizarVista();
