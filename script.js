@@ -22,7 +22,7 @@ const productos = [
     { id: 21, nombre: "Cilantro", precio: 800, img: "imagenes/cilantro.jpg", unidad: 'un' },
     { id: 22, nombre: "Choclo Americano", precio: 500, precioPromo: 1000, img: "imagenes/choclo.jpg", unidad: 'promo-3x' },
     { id: 23, nombre: "Bruselas (Malla)", precio: 1000, img: "imagenes/bruselas.jpg", unidad: 'un' },
-    { id: 24, nombre: "Palta", precio: 3000, img: "imagenes/palta.jpg", unidad: 'kg' },
+    { id: 24, nombre: "Palta", precio: 5200, img: "imagenes/palta.jpg", unidad: 'kg' },
     { id: 25, nombre: "Limón", precio: 1700, img: "imagenes/limon.jpg", unidad: 'kg' },
     { id: 26, nombre: "Perejil", precio: 600, img: "imagenes/perejil.jpg", unidad: 'un' },
     { id: 27, nombre: "Pimentón Rojo", precio: 800, img: "imagenes/pimenton-rojo.jpg", unidad: 'un' },
