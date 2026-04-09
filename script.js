@@ -136,4 +136,4 @@ document.getElementById('btn-cerrar-carrito').onclick = () => document.getElemen
 
 // INICIALIZACIÓN
 dibujarProductos();
-actualizarVista();
+actualizarVista(); 
