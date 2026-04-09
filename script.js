@@ -159,3 +159,31 @@ document.getElementById('btn-cerrar-carrito').onclick = () => document.getElemen
 document.getElementById('btn-vaciar').onclick = () => { if(confirm("¿Seguro quieres vaciar el carrito?")) { carrito = []; actualizarVista(); dibujarProductos(); } };
 
 dibujarProductos();
+// Localiza la sección del botón de pago (punto 5 o final del archivo) y reemplázala:
+
+document.getElementById('btn-pagar').addEventListener('click', () => {
+    if (carrito.length === 0) {
+        alert("Su carrito se encuentra vacío actualmente.");
+        return;
+    }
+
+    // Pregunta de confirmación educada
+    const confirmar = confirm("¿Ha verificado su pedido y desea continuar para enviarlo por WhatsApp?");
+    
+    if (confirmar) {
+        const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
+        
+        const detalle = carrito.map(p => {
+            let etiquetaUnidad = p.unidadBase;
+            if(p.unidadBase === 'un') {
+                etiquetaUnidad = p.cantidadElegida === 1 ? 'unidad' : 'unidades';
+            }
+            return `${p.nombreBase}: ${p.cantidadElegida} ${etiquetaUnidad} ($${p.subtotal.toLocaleString('es-CL')})`;
+        }).join("%0A");
+        
+        const miNumero = "56963536651"; 
+        const mensaje = `Hola Sra. Kathy. Quisiera realizar el siguiente pedido:%0A%0A${detalle}%0A%0A*Total a pagar: $${suma.toLocaleString('es-CL')}*`;
+        
+        window.open(`https://wa.me/${miNumero}?text=${mensaje}`, '_blank');
+    }
+});
