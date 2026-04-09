@@ -85,23 +85,35 @@ function actualizarVista() {
     if (totalMsg) totalMsg.innerText = `$${suma.toLocaleString('es-CL')}`;
     if (contador) contador.innerText = carrito.length;
 
-    // --- AJUSTES AUTOMÁTICOS QUE EVITAN CAMBIAR CSS/HTML ---
+    // --- ELIMINAR SECCIÓN "NUESTRAS VERDURAS" Y LIMPIAR FONDO ---
     
-    // 1. Título de bienvenida
-    const h1 = document.querySelector('h1');
-    if (h1) h1.innerText = "Frutas y Verduras Frescas";
+    // 1. Borrar título y subtítulo que marcaste
+    const titulosABorrar = document.querySelectorAll('h2');
+    titulosABorrar.forEach(h2 => {
+        if(h2.innerText.includes("Nuestras Verduras")) h2.remove();
+    });
 
-    // 2. Eliminar "Nuestras Verduras" y el bloque verde sobrante
-    const seccionSobrante = document.getElementById('productos') || document.querySelector('.productos');
-    if (seccionSobrante) seccionSobrante.remove();
+    const parrafosABorrar = document.querySelectorAll('p');
+    parrafosABorrar.forEach(p => {
+        if(p.innerText.includes("Selecciona lo que necesites")) p.remove();
+    });
 
-    // 3. Centrar Contacto Directo y poner fondo blanco
+    // 2. Eliminar toda la sección verde sobrante al final
+    const secciones = document.querySelectorAll('section');
+    secciones.forEach(sec => {
+        // Si la sección está después del contacto o contiene el catálogo duplicado, se elimina
+        if(sec.id === 'productos' || sec.classList.contains('productos')) {
+            sec.remove();
+        }
+    });
+
+    // 3. Asegurar que el Contacto esté centrado y sin fondo verde debajo
     const contacto = document.getElementById('contacto') || document.querySelector('section#contacto');
     if (contacto) {
-        contacto.style.cssText = "text-align: center; display: flex; flex-direction: column; align-items: center; background-color: white; color: black; padding: 40px 0;";
+        contacto.style.cssText = "text-align: center; display: flex; flex-direction: column; align-items: center; background-color: white; color: black; padding: 40px 0; width: 100%; margin: 0;";
     }
 
-    // 4. Pie de página limpio
+    // 4. Pie de página en blanco
     const footer = document.querySelector('footer');
     if (footer) {
         footer.style.backgroundColor = "white";
