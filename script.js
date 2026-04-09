@@ -56,7 +56,7 @@ function dibujarProductos() {
 
 window.agregar = function(id) {
     const p = productos.find(item => item.id === id);
-    let cantidad = parseFloat(document.getElementById(`qty-${id}`)?.value || 1);
+    let cantidadInput = parseFloat(document.getElementById(`qty-${id}`)?.value || 1);
     let precioFinal = p.precio;
     let unidadFinal = p.unidad === 'un' ? 'un' : 'kg';
 
@@ -71,16 +71,23 @@ window.agregar = function(id) {
         }
     }
 
-    if (p && cantidad > 0) {
-        const itemCarrito = {
-            ...p,
-            nombreUnidad: `${p.nombre} (${unidadFinal})`,
-            cantidadElegida: cantidad,
-            subtotal: Math.round(precioFinal * cantidad)
-        };
-        carrito.push(itemCarrito);
-        actualizarVista();
+    // Buscamos si el producto con esa unidad ya está en el carrito para agruparlo
+    const itemExistente = carrito.find(item => item.id === id && item.unidadTexto === unidadFinal);
+
+    if (itemExistente) {
+        itemExistente.cantidadElegida += cantidadInput;
+        itemExistente.subtotal = Math.round(itemExistente.cantidadElegida * precioFinal);
+    } else {
+        carrito.push({
+            id: p.id,
+            nombreBase: p.nombre,
+            unidadTexto: unidadFinal,
+            cantidadElegida: cantidadInput,
+            precioUnitario: precioFinal,
+            subtotal: Math.round(cantidadInput * precioFinal)
+        });
     }
+    actualizarVista();
 }
 
 function actualizarVista() {
@@ -91,8 +98,8 @@ function actualizarVista() {
     lista.innerHTML = carrito.map((p, i) => `
         <div class="item-carrito" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
             <div style="text-align: left;">
-                <strong style="color:var(--oscuro);">${p.nombreUnidad}</strong><br>
-                <small>${p.cantidadElegida} x $${(p.subtotal/p.cantidadElegida).toLocaleString('es-CL')}</small>
+                <strong style="color:var(--oscuro);">${p.nombreBase} (${p.unidadTexto})</strong><br>
+                <small>${p.cantidadElegida} x $${p.precioUnitario.toLocaleString('es-CL')}</small>
             </div>
             <div style="display:flex; align-items:center; gap:10px;">
                 <span style="font-weight:bold;">$${p.subtotal.toLocaleString('es-CL')}</span>
@@ -114,9 +121,13 @@ window.borrar = function(index) {
 document.getElementById('btn-pagar').addEventListener('click', () => {
     if (carrito.length === 0) return alert("Carrito vacío");
     const suma = carrito.reduce((t, p) => t + p.subtotal, 0);
-    const detalle = carrito.map(p => `✅ ${p.nombreUnidad}: ${p.cantidadElegida} ($${p.subtotal.toLocaleString('es-CL')})`).join("%0A");
+    
+    // Formato de mensaje solicitado: Sin carrito, con unidad clara y agrupado
+    const detalle = carrito.map(p => `✅ ${p.nombreBase}: ${p.cantidadElegida} ${p.unidadTexto} ($${p.subtotal.toLocaleString('es-CL')})`).join("%0A");
+    
     const miNumero = "56963536651"; 
-    const mensaje = `¡Hola Sra.Kathy! 🛒 Quiero hacer este pedido:%0A%0A${detalle}%0A%0A💰 *Total a pagar: $${suma.toLocaleString('es-CL')}*`;
+    const mensaje = `¡Hola Sra. Kathy! Quiero hacer este pedido:%0A%0A${detalle}%0A%0A*Total a pagar: $${suma.toLocaleString('es-CL')}*`;
+    
     window.open(`https://wa.me/${miNumero}?text=${mensaje}`, '_blank');
 });
 
