@@ -131,3 +131,31 @@ document.getElementById('btn-cerrar-carrito').onclick = () => document.getElemen
 
 dibujarProductos();
 actualizarVista();
+
+document.getElementById('btn-pagar').onclick = () => {
+    if (carrito.length === 0) {
+        alert("El carrito está vacío");
+        return;
+    }
+
+    // 1. Definir el número de teléfono (sin el signo +)
+    const telefono = "56963536651";
+
+    // 2. Construir el cuerpo del mensaje
+    let mensaje = "¡Hola! Me gustaría hacer un pedido:\n\n";
+    
+    carrito.forEach(p => {
+        mensaje += `• ${p.nombre}: ${p.cantidad} ${p.unidad} - $${p.subtotal.toLocaleString('es-CL')}\n`;
+    });
+
+    const total = carrito.reduce((t, p) => t + p.subtotal, 0);
+    mensaje += `\n*Total a pagar: $${total.toLocaleString('es-CL')}*`;
+
+    // 3. Codificar el mensaje para que sea válido en una URL
+    const mensajeCodificado = encodeURIComponent(mensaje);
+
+    // 4. Crear el enlace final y abrirlo
+    const url = `https://wa.me/${telefono}?text=${mensajeCodificado}`;
+    
+    window.open(url, '_blank');
+};
